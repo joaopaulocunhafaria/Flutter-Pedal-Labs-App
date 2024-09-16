@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "712620814789",
+    "project_id": "pedallabscefet",
+    "storage_bucket": "pedallabscefet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712620814789:android:13c167a872cd1630af9bac",
+        "android_client_info": {
+          "package_name": "com.example.bike"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "712620814789-jfugc3c7ahgajed4dpo51k7go603ragp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_pqV0zgnWxGm0C_ZCc7S5FNcoUuPCd5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "712620814789-jfugc3c7ahgajed4dpo51k7go603ragp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "712620814789-0kog1flq81scgmk7s9bmafu07naen27r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bike"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
