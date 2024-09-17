@@ -43,6 +43,7 @@ dependencies:
   sign_in_button: ^3.2.0
   font_awesome_flutter: ^10.7.0
   flutter_masked_text2: ^0.9.1
+  cloud_firestore: ^4.15.8
 
 dev_dependencies:
   flutter_test:
