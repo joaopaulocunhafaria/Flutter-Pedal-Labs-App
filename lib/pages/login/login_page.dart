@@ -1,10 +1,9 @@
 import 'dart:async';
-
-import 'package:bike/main_screen.dart';
 import 'package:bike/pages/home/home_page.dart';
 import 'package:bike/pages/login/register_user_page.dart';
 import 'package:bike/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
@@ -107,20 +106,20 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("PEDAL LABS",
-                    style: TextStyle(
+                  Text("PEDAL LABS",
+                    style:GoogleFonts.acme(
                       color: Colors.blue,
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
-                      letterSpacing: -1.5,
+                      letterSpacing: 2,
                     )),
                 AnimatedOpacity(
                   opacity: _opacity,
                   duration: const Duration(seconds: 1),
-                  child: const Text("Bem Vindo",
-                      style: TextStyle(
+                  child:   Text("Bem Vindo",
+                      style: GoogleFonts.acme(
                         color: Colors.blue,
-                        fontSize: 35,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold,
                         letterSpacing: -1.5,
                       )),
@@ -147,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                       border: OutlineInputBorder(
                         borderSide:
                             const BorderSide(color: Colors.blue, width: 2.0),
-                        borderRadius: BorderRadius.circular(15.0), 
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
                       hintText: 'nome@email.com',
                       hintStyle: const TextStyle(
@@ -226,7 +225,7 @@ class _LoginPageState extends State<LoginPage> {
                         //botao de login
                         style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                const Color.fromARGB(255, 58, 191, 40),
+                                Colors.blue,
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8)))),
@@ -283,7 +282,7 @@ class _LoginPageState extends State<LoginPage> {
                                 "Cadastrar-se",
                                 style: TextStyle(
                                     fontSize: 16,
-                                    color: Color.fromARGB(255, 25, 87, 16)),
+                                    color: Colors.blue),
                               ),
                             ),
                           ],
@@ -297,38 +296,10 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.white,
                   height: 60,
                 ),
-                InkWell(
-                  onTap: () {
-                    loginComGoogle();
-                    if (auth.usuario != null) {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => MainScreen(),
-                        ),
-                      );
-                    }
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey
-                              .withOpacity(0.9), // Cor da sombra com opacidade
-                          spreadRadius: 2, // Raio de propagação
-                          blurRadius: 5, // Raio de desfoque
-                          offset: Offset(
-                              0, 3), // Deslocamento horizontal e vertical
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                    ),
-                    height: 45,
-                    width: 240,
-                    child: SignInButton(Buttons.google,
-                        onPressed: loginComGoogle, text: "Entrar com o google"),
-                  ),
-                )
+                SignInButton(Buttons.google,
+                    onPressed: loginComGoogle, text: "Entrar com o google", elevation: 8,shape: RoundedRectangleBorder( // Adicionando bordas arredondadas
+            borderRadius: BorderRadius.circular(10), 
+          ),),
               ],
             ),
           ),
