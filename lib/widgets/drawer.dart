@@ -1,5 +1,8 @@
+import 'package:bike/pages/home/home_page.dart';
 import 'package:bike/pages/info/info_page.dart';
 import 'package:bike/pages/login/login_page.dart';
+import 'package:bike/pages/login/login_with_google.dart';
+import 'package:bike/pages/profile/profile_page.dart';
 import 'package:bike/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -100,6 +103,28 @@ class _DefaultDrawerState extends State<DefaultDrawer> {
             ),
           ),
           ListTile(
+            leading: const Icon(FontAwesomeIcons.house, size: 25.0),
+            title: const Text('Home'),
+            onTap: () { 
+                Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(FontAwesomeIcons.user, size: 25.0),
+            title: const Text('Perfil'),
+            onTap: () { 
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const Profile(),
+                ),
+              );
+            },
+          ),
+          ListTile(
             leading: const Icon(FontAwesomeIcons.bell, size: 25.0),
             title: const Text('Alertas'),
             onTap: () {
@@ -130,8 +155,8 @@ class _DefaultDrawerState extends State<DefaultDrawer> {
             leading: Icon(FontAwesomeIcons.rightToBracket),
             title: Text("Login Page"),
             onTap: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const LoginPage()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => const LoginWithGoogle()));
             },
           )
         ],

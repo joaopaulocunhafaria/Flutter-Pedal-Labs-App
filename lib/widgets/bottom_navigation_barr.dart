@@ -1,6 +1,7 @@
 import 'package:bike/pages/bikes/bikes_page.dart';
 import 'package:bike/pages/home/home_page.dart';
 import 'package:bike/pages/profile/profile_page.dart';
+import 'package:bike/pages/travels/travels_page.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatefulWidget {
@@ -18,7 +19,7 @@ class _BottomBarState extends State<BottomBar> {
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
     const Bikes(),
-    const Profile(),
+    const Travels()
   ];
  
   void _onItemTapped(int index) {
@@ -43,9 +44,9 @@ class _BottomBarState extends State<BottomBar> {
           icon: Icon(Icons.pedal_bike),
           label: 'Bicicletas',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Perfil',
+         BottomNavigationBarItem(
+          icon: Icon(Icons.travel_explore),
+          label: 'Viagens',
         ),
       ],
       currentIndex: widget.selectedIndex,
