@@ -24,8 +24,7 @@ class _ProfileState extends State<Profile> {
           mainAxisAlignment: MainAxisAlignment.center,
 
         ),
-      ),
-      bottomNavigationBar: const BottomBar(selectedIndex: 2),
+      ) 
     );
   }
 }

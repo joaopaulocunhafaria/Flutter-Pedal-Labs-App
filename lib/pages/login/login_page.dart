@@ -106,8 +106,8 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                  Text("PEDAL LABS",
-                    style:GoogleFonts.acme(
+                Text("PEDAL LABS",
+                    style: GoogleFonts.acme(
                       color: Colors.blue,
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
@@ -116,13 +116,18 @@ class _LoginPageState extends State<LoginPage> {
                 AnimatedOpacity(
                   opacity: _opacity,
                   duration: const Duration(seconds: 1),
-                  child:   Text("Bem Vindo",
+                  child: Text("Bem Vindo",
                       style: GoogleFonts.acme(
                         color: Colors.blue,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                         letterSpacing: -1.5,
                       )),
+                ),
+                  const Divider(
+                  thickness: 2,
+                  color: Colors.white,
+                  height: 20,
                 ),
                 Padding(
                   //input  do email
@@ -224,8 +229,7 @@ class _LoginPageState extends State<LoginPage> {
                       ElevatedButton(
                         //botao de login
                         style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Colors.blue,
+                            backgroundColor: Colors.blue,
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8)))),
@@ -280,9 +284,8 @@ class _LoginPageState extends State<LoginPage> {
                               padding: EdgeInsets.all(0.0),
                               child: Text(
                                 "Cadastrar-se",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.blue),
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.blue),
                               ),
                             ),
                           ],
@@ -296,10 +299,20 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.white,
                   height: 60,
                 ),
-                SignInButton(Buttons.google,
-                    onPressed: loginComGoogle, text: "Entrar com o google", elevation: 8,shape: RoundedRectangleBorder( // Adicionando bordas arredondadas
-            borderRadius: BorderRadius.circular(10), 
-          ),),
+                Container(
+                  width: 300,
+                  height: 50,
+                  child: SignInButton(
+                    Buttons.google,
+                    onPressed: loginComGoogle,
+                    text: "Entrar com o google",
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(
+                      // Adicionando bordas arredondadas
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
