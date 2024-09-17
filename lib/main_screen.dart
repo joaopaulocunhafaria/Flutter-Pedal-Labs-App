@@ -2,12 +2,10 @@
 // modificaçao 2
 
 // import 'dart:js_util';
-
-import 'dart:developer';
+ 
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:geolocator/geolocator.dart'; 
 import 'dart:async';
 import 'dart:io';
 
