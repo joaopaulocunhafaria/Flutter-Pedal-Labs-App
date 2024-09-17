@@ -1,5 +1,6 @@
 import 'package:bike/widgets/app_bar.dart';
 import 'package:bike/widgets/bottom_navigation_barr.dart';
+import 'package:bike/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -14,6 +15,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const DefaultAppBar(),
+      drawer: const DefaultDrawer(),
       body:   Container(
         decoration: const BoxDecoration(
           
