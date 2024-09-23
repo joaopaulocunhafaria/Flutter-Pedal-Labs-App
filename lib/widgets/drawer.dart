@@ -35,7 +35,7 @@ class _DefaultDrawerState extends State<DefaultDrawer> {
   logOut() async {
     await context.read<AuthService>().logout();
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
+        .pushReplacement(MaterialPageRoute(builder: (context) => const LoginWithGoogle()));
   }
 
   @override
@@ -149,7 +149,9 @@ class _DefaultDrawerState extends State<DefaultDrawer> {
             leading:
                 const Icon(FontAwesomeIcons.arrowRightFromBracket, size: 25.0),
             title: const Text('LogOut'),
-            onTap: () async {},
+            onTap: ()async=>{
+              logOut()
+            },
           ),
           ListTile(
             leading: Icon(FontAwesomeIcons.rightToBracket),

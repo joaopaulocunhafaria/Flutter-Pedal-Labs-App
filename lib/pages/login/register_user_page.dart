@@ -1,8 +1,8 @@
 import 'package:bike/pages/home/home_page.dart';
 import 'package:bike/pages/login/login_page.dart';
-import 'package:bike/services/auth_service.dart'; 
+import 'package:bike/services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart'; 
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_button/sign_in_button.dart';
@@ -48,23 +48,16 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
     });
   }
 
-  login() async {
-    try {
-      await context
-          .read<AuthService>()
-          .login(_emailController.text, _senhaController.text);
-    } on AuthException catch (e) {
-      BuildContext;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.message),
-        backgroundColor: Colors.black,
-      ));
-    }
-  }
-
   loginComGoogle() {
     try {
       context.read<AuthService>().loginComGoogle();
+      if (context.read<AuthService>().usuario != null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ),
+        );
+      }
     } on AuthException catch (e) {
       BuildContext;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -79,6 +72,13 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
       await context
           .read<AuthService>()
           .registrar(_emailController.text, _senhaController.text);
+      if (context.read<AuthService>().usuario != null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ),
+        );
+      }
     } on AuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e.message), backgroundColor: Colors.black));
@@ -99,7 +99,6 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-               
                 Text(titulo,
                     style: const TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255),
@@ -309,8 +308,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                               child: Text(
                                 actionButton,
                                 style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(255, 24, 91, 15)),
+                                    fontSize: 16, color: Colors.blue),
                               ),
                             ),
                           ],
@@ -322,14 +320,13 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                       ElevatedButton(
                         //botao de cadastro
                         style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 58, 191, 40),
+                            backgroundColor: Colors.blue,
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8)))),
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            registrar();
+                            await registrar();
                             if (auth.usuario != null) {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
@@ -364,7 +361,9 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                   height: 60,
                 ),
                 InkWell(
-                  onTap: loginComGoogle,
+                  onTap: () async {
+                    await loginComGoogle();
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                         boxShadow: [
@@ -381,7 +380,13 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                         color: Colors.white),
                     height: 45,
                     width: 240,
-                    child: SignInButton(Buttons.google,text: "Entrar com o google", onPressed: loginComGoogle,),
+                    child: SignInButton(
+                      Buttons.google,
+                      text: "Entrar com o google",
+                      onPressed: () async {
+                        await loginComGoogle();
+                      },
+                    ),
                   ),
                 )
               ],

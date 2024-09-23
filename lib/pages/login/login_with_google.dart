@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bike/pages/home/home_page.dart';
 import 'package:bike/pages/login/login_page.dart';
 import 'package:bike/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -17,14 +18,14 @@ class LoginWithGoogle extends StatefulWidget {
 class _LoginWithGoogleState extends State<LoginWithGoogle>
     with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-  double _opacity = 1.0; 
+  double _opacity = 1.0;
 
   bool isLogin = true;
   late String titulo;
   late String actionButton;
   late String toggleButton;
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     _startFadeAnimation();
   }
@@ -38,9 +39,22 @@ class _LoginWithGoogleState extends State<LoginWithGoogle>
     });
   }
 
-  loginComGoogle() {
+  loginComGoogle() async {
     try {
-      context.read<AuthService>().loginComGoogle();
+      await context.read<AuthService>().loginComGoogle();
+
+      print("\n\n");
+      print("\n\n");
+      print("context.read<AuthService>().usuario");
+      print("\n\n");
+      print("\n\n");
+      if (context.read<AuthService>().usuario != null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ),
+        );
+      }
     } on AuthException catch (e) {
       BuildContext;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -85,8 +99,8 @@ class _LoginWithGoogleState extends State<LoginWithGoogle>
                   color: Colors.white,
                   height: 60,
                 ),
-                const Image( 
-                  image:   AssetImage("assets/biking.gif"), 
+                const Image(
+                  image: AssetImage("assets/biking.gif"),
                 ),
                 const Divider(
                   thickness: 2,
@@ -98,7 +112,9 @@ class _LoginWithGoogleState extends State<LoginWithGoogle>
                   height: 50,
                   child: SignInButton(
                     Buttons.google,
-                    onPressed: loginComGoogle,
+                    onPressed: () async {
+                      await loginComGoogle();
+                    },
                     text: "Entrar com o google",
                     elevation: 8,
                     shape: RoundedRectangleBorder(

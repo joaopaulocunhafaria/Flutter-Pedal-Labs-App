@@ -56,9 +56,16 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  loginComGoogle() {
+  loginComGoogle() async {
     try {
-      context.read<AuthService>().loginComGoogle();
+      await context.read<AuthService>().loginComGoogle();
+      if (context.read<AuthService>().usuario != null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ),
+        );
+      }
     } on AuthException catch (e) {
       BuildContext;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -81,17 +88,7 @@ class _LoginPageState extends State<LoginPage> {
       ));
     }
   }
-
-  registrar() async {
-    try {
-      await context
-          .read<AuthService>()
-          .registrar(_emailController.text, _senhaController.text);
-    } on AuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.message), backgroundColor: Colors.black));
-    }
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                         letterSpacing: -1.5,
                       )),
                 ),
-                  const Divider(
+                const Divider(
                   thickness: 2,
                   color: Colors.white,
                   height: 20,
@@ -233,9 +230,9 @@ class _LoginPageState extends State<LoginPage> {
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8)))),
-                        onPressed: () {
+                        onPressed: ()async {
                           if (_formKey.currentState!.validate()) {
-                            login();
+                            await login();
                             if (auth.usuario != null) {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
@@ -304,7 +301,9 @@ class _LoginPageState extends State<LoginPage> {
                   height: 50,
                   child: SignInButton(
                     Buttons.google,
-                    onPressed: loginComGoogle,
+                    onPressed: () async {
+                      await loginComGoogle();
+                    },
                     text: "Entrar com o google",
                     elevation: 8,
                     shape: RoundedRectangleBorder(
