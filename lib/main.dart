@@ -1,6 +1,7 @@
 import 'package:bike/services/auth_service.dart';
+import 'package:bike/services/bike_service.dart';
 import 'package:bike/widgets/auth_check.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -10,13 +11,17 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
- runApp(
+  runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthService()),
-        ChangeNotifierProvider(create: (context) => UserProvider()) 
+        ChangeNotifierProxyProvider<AuthService, BikeService>(
+          create: (_) => BikeService(),
+          update: (_, authService, bikeService) =>
+              bikeService!..setAuthService(authService),
+        ),
       ],
-      child:   MyApp(),
+      child: MyApp(),
     ),
   );
 }

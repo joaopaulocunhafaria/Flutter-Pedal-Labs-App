@@ -1,3 +1,5 @@
+import 'package:bike/models/db_user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ class AuthService extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   User? usuario;
+  DbUser? dbUser;
 
   bool isLoading = true;
 
@@ -19,17 +22,20 @@ class AuthService extends ChangeNotifier {
   }
 
   _authCheck() {
-    UserProvider userProvider = UserProvider();
-    _auth.authStateChanges().listen((User? user) {
+    _auth.authStateChanges().listen((User? user) async {
       usuario = (user == null) ? null : user;
+      if (usuario != null) {
+        dbUser = await dbUserFromUser(usuario);
+      }
       isLoading = false;
       notifyListeners();
-      userProvider.updateUser(user);
+      print("Authcheck");
     });
   }
 
   _getUser() {
     usuario = _auth.currentUser;
+
     notifyListeners();
   }
 
@@ -51,9 +57,24 @@ class AuthService extends ChangeNotifier {
       GoogleAuthProvider _googleAuthProvider = GoogleAuthProvider();
       await _auth.signInWithProvider(_googleAuthProvider);
       _getUser();
-      print(usuario?.email.toString());
-
-      //adicionar usuario no banco de dados
+ 
+      //adicionar o usuario no banco de dados
+      if (usuario != null) {
+        FirebaseFirestore db = FirebaseFirestore.instance;
+        QuerySnapshot result = await db
+            .collection('user')
+            .where('email', isEqualTo: usuario!.email)
+            .get();
+        if (result.docs.isEmpty) {
+          // Se o usuário não existir no Firestore, adiciona
+          await db.collection('user').add({
+            'email': usuario!.email,
+            'name': usuario!.displayName,
+            'cellphone': '',
+            'traveledKm': 0
+          });
+        }
+      }
     } catch (e) {
       print(e);
     }
@@ -62,6 +83,7 @@ class AuthService extends ChangeNotifier {
   login(String email, String senha) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: senha);
+
       _getUser();
     } on FirebaseAuthException catch (e) {
       print(e.code);
@@ -82,20 +104,35 @@ class AuthService extends ChangeNotifier {
     await _auth.signOut();
     _getUser();
   }
-}
 
-class UserProvider with ChangeNotifier {
-  User? _currentUser;
+  Future<DbUser> dbUserFromUser(User? currentUser) async {
+    String? email = currentUser!.email;
+    Map<String, dynamic> dbUser;
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    QuerySnapshot result =
+        await db.collection('user').where('email', isEqualTo: email).get();
 
-  User? get currentUser => _currentUser;
+    dbUser = result.docs
+        .map((doc) => doc.data() as Map<String, dynamic>)
+        .toList()[0];
 
-  set currentUser(User? user) {
-    _currentUser = user;
-    notifyListeners();
-  }
+    String? name = dbUser['name'];
+    String? cellphone = dbUser['cellphone'];
+    int? traveledKm = dbUser['traveledKm'];
+    int? id = dbUser['id'];
+    print("USER BANCO DE DADOS: \n");
+    print("Name: $name");
+    print("Cellphone: $cellphone");
+    print("Traveled Km: $traveledKm");
+    print("Email: $email");
+    print("ID: $id");
+    print("\n\n\n");
 
-  void updateUser(User? user) {
-    _currentUser = user;
-    notifyListeners();
+    return DbUser(
+        name: name,
+        cellphone: cellphone,
+        traveledKm: traveledKm,
+        email: email,
+        id: id);
   }
 }
