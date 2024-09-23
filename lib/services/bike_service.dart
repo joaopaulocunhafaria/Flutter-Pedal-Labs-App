@@ -15,7 +15,6 @@ class BikeService extends ChangeNotifier {
   List<Bike>? bike;
 
   AuthService? _authService;
- 
 
   void setAuthService(AuthService authService) {
     _authService = authService;
@@ -31,7 +30,7 @@ class BikeService extends ChangeNotifier {
   }
 
   Future<void> addBike(Bike newBike) async {
-    FirebaseFirestore db = FirebaseFirestore.instance; 
+    FirebaseFirestore db = FirebaseFirestore.instance;
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
       int? id = _authService!.dbUser!.id;
@@ -40,12 +39,16 @@ class BikeService extends ChangeNotifier {
           await db.collection('user').where('id', isEqualTo: id).get();
 
       if (userSnapshot.docs.isNotEmpty) {
+        print("Documento encontrado");
         DocumentSnapshot userDoc = userSnapshot.docs.first;
 
         CollectionReference bikeCollection =
-            db.collection("user").doc(userDoc.id).collection('bike');
+            db.collection("user").doc(userDoc.id).collection('bikes');
+
+        print("Colecao encontrada");
 
         await bikeCollection.add(newBike.toJson());
+        print("Adicioanado com sucesso");
 
         List<Bike>? bikes;
         QuerySnapshot bikeSnapshot = await db
@@ -53,9 +56,12 @@ class BikeService extends ChangeNotifier {
             .doc(userDoc.id)
             .collection('bikes')
             .get();
-        bikeSnapshot.docs.map((bike) =>
-            {bikes!.add(Bike.fromJson(bike.data() as Map<String, dynamic>))});
-        _setBikes(bikes!);
+
+        bikes = bikeSnapshot.docs.map((doc) {
+          return Bike.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+        }).toList();
+
+        _setBikes(bikes);
       }
 
       notifyListeners();
@@ -64,8 +70,8 @@ class BikeService extends ChangeNotifier {
     }
   }
 
-  Future<void> updateBike(int bikeId, Bike updatedBike) async {
-    FirebaseFirestore db = FirebaseFirestore.instance; 
+  Future<void> updateBike(String bikeId, Bike updatedBike) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
       int? userId = _authService!.dbUser!.id;
@@ -79,23 +85,21 @@ class BikeService extends ChangeNotifier {
         CollectionReference bikeCollection =
             db.collection("user").doc(userDoc.id).collection('bikes');
 
-        QuerySnapshot bikeSnapshot =
-            await bikeCollection.where('id', isEqualTo: bikeId).get();
+        DocumentSnapshot bikeDoc = await bikeCollection.doc(bikeId).get();
 
-        if (bikeSnapshot.docs.isNotEmpty) {
-          DocumentSnapshot bikeDoc = bikeSnapshot.docs.first;
-
+        if (bikeDoc.exists) {
           await bikeCollection.doc(bikeDoc.id).update(updatedBike.toJson());
 
           List<Bike>? bikes;
-          QuerySnapshot snapshot = await db
+          QuerySnapshot bikeSnapshot = await db
               .collection("user")
               .doc(userDoc.id)
               .collection('bikes')
               .get();
 
-          snapshot.docs.map((bike) =>
-              {bikes!.add(Bike.fromJson(bike.data() as Map<String, dynamic>))});
+          bikes = bikeSnapshot.docs.map((doc) {
+            return Bike.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+          }).toList();
           _setBikes(bikes!);
           notifyListeners();
         } else {
@@ -109,8 +113,8 @@ class BikeService extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteBike(int idBike) async {
-    FirebaseFirestore db = FirebaseFirestore.instance; 
+  Future<void> deleteBike(String bikeId) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
       int? userId = _authService!.dbUser!.id;
@@ -124,27 +128,25 @@ class BikeService extends ChangeNotifier {
         CollectionReference bikeCollection =
             db.collection("user").doc(userDoc.id).collection('bikes');
 
-        QuerySnapshot bikeSnapshot =
-            await bikeCollection.where('id', isEqualTo: idBike).get();
-
-        if (bikeSnapshot.docs.isNotEmpty) {
-          DocumentSnapshot bikeDoc = bikeSnapshot.docs.first;
-
-          await bikeCollection.doc(bikeDoc.id).delete();
+        DocumentSnapshot bikeDoc = await bikeCollection.doc(bikeId).get();
+        if (bikeDoc.exists) {
+          await bikeCollection.doc(bikeId).delete();
 
           List<Bike>? bikes;
-          QuerySnapshot snapshot = await db
+          QuerySnapshot bikeSnapshot = await db
               .collection("user")
               .doc(userDoc.id)
               .collection('bikes')
               .get();
-          snapshot.docs.map((bike) =>
-              {bikes!.add(Bike.fromJson(bike.data() as Map<String, dynamic>))});
+
+          bikes = bikeSnapshot.docs.map((doc) {
+            return Bike.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+          }).toList();
           _setBikes(bikes!);
 
           notifyListeners();
         } else {
-          print("Bicicleta com ID $idBike não encontrada.");
+          print("Bicicleta com ID $bikeId não encontrada.");
         }
       } else {
         print("Usuário não encontrado.");
@@ -155,22 +157,11 @@ class BikeService extends ChangeNotifier {
   }
 
   Future<List<Bike>> getBikes() async {
-    FirebaseFirestore db = FirebaseFirestore.instance; 
+    FirebaseFirestore db = FirebaseFirestore.instance;
     List<Bike> bikes = [];
-
-    var userProvid = _authService!.usuario;
-    print("User DB: $userProvid ");
-    print("\n\n\n");
-    print("\n\n\n");
-    print(_authService!.dbUser);
-    print("\n\n\n");
-    print("\n\n\n");
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
       int? userId = _authService!.dbUser!.id;
-
-      print("User ID: $userId ");
-      print("\n\n\n");
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: userId).get();
@@ -179,19 +170,13 @@ class BikeService extends ChangeNotifier {
         DocumentSnapshot userDoc = userSnapshot.docs.first;
 
         CollectionReference bikeCollection =
-            db.collection("user").doc(userDoc.id).collection('bikes');
+            await db.collection("user").doc(userDoc.id).collection('bikes');
 
         QuerySnapshot bikeSnapshot = await bikeCollection.get();
 
         bikes = bikeSnapshot.docs.map((doc) {
-          return Bike.fromJson(doc.data() as Map<String, dynamic>);
+          return Bike.fromJson(doc.data() as Map<String, dynamic>, doc.id);
         }).toList();
-
-        print("\n\n\n");
-
-        print("bikes");
-        print(bikes);
-        print("\n\n\n");
 
         _setBikes(bikes);
       } else {
