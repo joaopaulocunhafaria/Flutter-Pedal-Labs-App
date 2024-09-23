@@ -1,25 +1,34 @@
 class Part {
-  String? nome;
-  String? marca;
-  bool? necessitaManutencao;
-  int? limiteKm;
+  String? id;
+  String? name;
+  String? label;
+  bool? needRepair;
+  int? maxKm;
+  int? traveledKm;
 
   Part(
-      {this.nome, this.marca, this.necessitaManutencao, this.limiteKm});
+      {this.id,
+      this.name,
+      this.label,
+      this.needRepair,
+      this.maxKm,
+      this.traveledKm});
 
-  Part.fromJson(Map<String, dynamic> json) {
-    nome = json['nome'];
-    marca = json['marca'];
-    necessitaManutencao = json['necessitaManutencao'];
-    limiteKm = json['limiteKm'];
+  Part.fromJson(Map<String, dynamic> json, String partId) {
+    id = partId;
+    name = json['name'];
+    label = json['label'];
+    needRepair = json['needRepair'];
+    maxKm = json['maxKm'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['nome'] = this.nome;
-    data['marca'] = this.marca;
-    data['necessitaManutencao'] = this.necessitaManutencao;
-    data['limiteKm'] = this.limiteKm;
+    data["id"] = id;
+    data['name'] = name;
+    data['label'] = label;
+    data['needRepair'] = needRepair;
+    data['maxKm'] = maxKm;
     return data;
   }
 }
