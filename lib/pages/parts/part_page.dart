@@ -1,8 +1,9 @@
 import 'package:bike/models/bike_model.dart';
+import 'package:bike/models/part_model.dart';
 import 'package:bike/pages/bikes/add_bike_page.dart';
 import 'package:bike/pages/bikes/edit_bike_page.dart';
-import 'package:bike/pages/parts/part_page.dart';
 import 'package:bike/services/bike_service.dart';
+import 'package:bike/services/parts_service.dart';
 import 'package:bike/widgets/app_bar.dart';
 import 'package:bike/widgets/bottom_navigation_barr.dart';
 import 'package:bike/widgets/drawer.dart';
@@ -10,19 +11,29 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class Bikes extends StatefulWidget {
-  const Bikes({Key? key}) : super(key: key);
+class PartsPage extends StatefulWidget {
+  final Bike bike;
+  const PartsPage({Key? key, required this.bike}) : super(key: key);
 
   @override
-  State<Bikes> createState() => _BikesState();
+  State<PartsPage> createState() => _PartsPageState();
 }
 
-class _BikesState extends State<Bikes> {
-  late BikeService bikeService;
+class _PartsPageState extends State<PartsPage> {
+  late Bike currentBike;
+
+  late PartService partService;
+
+  @override
+  void initState() {
+    super.initState();
+    currentBike = widget.bike;
+  }
 
   @override
   Widget build(BuildContext context) {
-    bikeService = Provider.of<BikeService>(context);
+    partService = Provider.of<PartService>(context);
+    partService.setBikeId(currentBike.id!);
 
     return Scaffold(
       appBar: const DefaultAppBar(),
@@ -33,14 +44,83 @@ class _BikesState extends State<Bikes> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              flex: 8,
-              child: FutureBuilder<List<Bike>>(
-                future: bikeService.getBikes(),
+              flex: 3,
+              child: Card(
+                elevation: 8,
+                margin: const EdgeInsets.all(12),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.pedal_bike_sharp,
+                                size: 40,
+                              ),
+                            ],
+                          )),
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              currentBike.label!,
+                              style: GoogleFonts.acme(
+                                color: Colors.blue,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 2,
+                              ),
+                            ),
+                            Text(
+                              currentBike.model!,
+                              style: GoogleFonts.acme(
+                                color: Colors.blue,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                            Text(
+                              "KM:" + currentBike.traveledKm!.toString(),
+                              style: GoogleFonts.acme(
+                                color: Colors.blue,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Expanded(
+                          flex: 2,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [],
+                          )),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 6,
+              child: FutureBuilder<List<Part>>(
+                future: partService.getParts(),
                 builder: (context, snapshot) {
+                  print("snapshot.data");
+                  print(snapshot.data);
                   if (snapshot.hasError) {
                     return Center(
                       child: Text(
-                        "Erro ao carregar bikes",
+                        "Erro ao carregar peças",
                         style: GoogleFonts.acme(
                           color: Colors.blue,
                           fontSize: 16,
@@ -50,11 +130,11 @@ class _BikesState extends State<Bikes> {
                       ),
                     );
                   } else if (snapshot.hasData) {
-                    List<Bike> bikes = snapshot.data!;
-                    if (bikes.isEmpty) {
+                    List<Part> parts = snapshot.data!;
+                    if (parts.isEmpty) {
                       return Center(
                         child: Text(
-                          "Você não tem nenhuma bike registrada.",
+                          "Você não tem nenhuma peças registrada.",
                           style: GoogleFonts.acme(
                             color: Colors.blue,
                             fontSize: 16,
@@ -66,16 +146,11 @@ class _BikesState extends State<Bikes> {
                     }
                     // ListView baseado no número de bikes
                     return ListView.builder(
-                      itemCount: bikes.length,
+                      itemCount: parts.length,
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    PartsPage(bike: bikes[index]),
-                              ),
-                            );
+                            // Navegar para outra tela
                           },
                           child: Card(
                             elevation: 8,
@@ -91,7 +166,7 @@ class _BikesState extends State<Bikes> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Icon(
-                                            Icons.pedal_bike_sharp,
+                                            Icons.settings,
                                             size: 40,
                                           ),
                                         ],
@@ -103,7 +178,7 @@ class _BikesState extends State<Bikes> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          bikes[index].label!,
+                                          parts[index].name!,
                                           style: GoogleFonts.acme(
                                             color: Colors.blue,
                                             fontSize: 16,
@@ -112,7 +187,7 @@ class _BikesState extends State<Bikes> {
                                           ),
                                         ),
                                         Text(
-                                          bikes[index].model!,
+                                          parts[index].label!,
                                           style: GoogleFonts.acme(
                                             color: Colors.blue,
                                             fontSize: 14,
@@ -121,8 +196,18 @@ class _BikesState extends State<Bikes> {
                                           ),
                                         ),
                                         Text(
-                                          "KM:" +
-                                              bikes[index]
+                                          "Limit Km:" +
+                                              parts[index].maxKm!.toString(),
+                                          style: GoogleFonts.acme(
+                                            color: Colors.blue,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            letterSpacing: 1,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Km:" +
+                                              parts[index]
                                                   .traveledKm!
                                                   .toString(),
                                           style: GoogleFonts.acme(
@@ -144,23 +229,7 @@ class _BikesState extends State<Bikes> {
                                             CrossAxisAlignment.end,
                                         children: [
                                           IconButton(
-                                              onPressed: () => {
-                                                    Navigator.of(context)
-                                                        .pushReplacement(
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            EditBikePage(
-                                                          id: bikes[index].id!,
-                                                          km: bikes[index]
-                                                              .traveledKm!,
-                                                          marca: bikes[index]
-                                                              .label!,
-                                                          modelo: bikes[index]
-                                                              .model!,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  },
+                                              onPressed: () => {},
                                               icon: const Icon(Icons.edit)),
                                           IconButton(
                                               onPressed: () => {
@@ -170,7 +239,7 @@ class _BikesState extends State<Bikes> {
                                                           AlertDialog(
                                                         title: const Center(
                                                           child: Text(
-                                                            "Excluir bike?",
+                                                            "Excluir peça?",
                                                             style: TextStyle(
                                                                 color: Color
                                                                     .fromARGB(
@@ -202,8 +271,8 @@ class _BikesState extends State<Bikes> {
                                                                   ),
                                                                   onPressed:
                                                                       () {
-                                                                    bikeService.deleteBike(
-                                                                        bikes[index]
+                                                                    partService.deletePart(
+                                                                        parts[index]
                                                                             .id!);
                                                                     Navigator.of(
                                                                             context)

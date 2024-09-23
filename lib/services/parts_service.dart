@@ -202,10 +202,14 @@ class PartService extends ChangeNotifier {
             .collection("parts")
             .get();
 
-        List<Part> parts;
         parts = bikeSnapshot.docs.map((part) {
+          print("part.data()");
+          print(part.data());
           return Part.fromJson(part.data() as Map<String, dynamic>, part.id);
         }).toList();
+
+        print("Parts length");
+        print(parts.length);
         _setParts(parts);
       } else {
         print("Usuário não encontrado.");

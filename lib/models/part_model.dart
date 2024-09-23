@@ -20,6 +20,7 @@ class Part {
     label = json['label'];
     needRepair = json['needRepair'];
     maxKm = json['maxKm'];
+    traveledKm = json['traveledKm'];
   }
 
   Map<String, dynamic> toJson() {
@@ -29,6 +30,12 @@ class Part {
     data['label'] = label;
     data['needRepair'] = needRepair;
     data['maxKm'] = maxKm;
+    data['traveledKm'] = traveledKm;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'Part{id: $id, name: $name, label: $label, needRepair: $needRepair, maxKm: $maxKm, traveledKm: $traveledKm}';
   }
 }
