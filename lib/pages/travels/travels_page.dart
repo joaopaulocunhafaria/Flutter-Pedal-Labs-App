@@ -1,3 +1,5 @@
+import 'package:bike/models/bike_model.dart';
+import 'package:bike/services/bike_service.dart';
 import 'package:bike/widgets/app_bar.dart';
 import 'package:bike/widgets/bottom_navigation_barr.dart';
 import 'package:bike/widgets/drawer.dart';
@@ -11,20 +13,20 @@ class Travels extends StatefulWidget {
 }
 
 class _TravelsState extends State<Travels> {
- Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: const DefaultAppBar(),
-        drawer: const DefaultDrawer(),
-        body:   Container(
-          decoration: const BoxDecoration(
-            
-          ), 
-          child: const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+  Future<List<Bike>> getBikeFromDb() async {
+    BikeService bikeService = BikeService();
+    return await bikeService.getBikes();
+  }
 
-          ),
-        ),
-        bottomNavigationBar: const BottomBar(selectedIndex: 3),
-      );
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const DefaultAppBar(),
+      drawer: const DefaultDrawer(),
+      body: Container(
+        decoration: const BoxDecoration(),
+        child: Card()
+      ),
+      bottomNavigationBar: const BottomBar(selectedIndex: 2),
+    );
   }
 }
