@@ -1,24 +1,36 @@
 class Travel {
   String? start;
   String? end;
-  int? bikeId;
+  String? duration;
   int? distance;
+  String? bikeId;
+  String? randomIdentifier;
 
-  Travel({this.start, this.end, this.bikeId, this.distance});
+  Travel(
+      {this.start,
+      this.end,
+      this.duration,
+      this.distance,
+      this.bikeId,
+      this.randomIdentifier});
 
   Travel.fromJson(Map<String, dynamic> json) {
     start = json['start'];
     end = json['end'];
-    bikeId = json['bike_id'];
+    duration = json['duration'];
     distance = json['distance'];
+    bikeId = json['bikeId'];
+    randomIdentifier = json['randomIdentifier'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['start'] = this.start;
     data['end'] = this.end;
-    data['bike_id'] = this.bikeId;
+    data['duration'] = this.duration;
     data['distance'] = this.distance;
+    data['bikeId'] = this.bikeId;
+    data['randomIdentifier'] = this.randomIdentifier;
     return data;
   }
 }
