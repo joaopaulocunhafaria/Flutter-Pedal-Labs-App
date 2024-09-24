@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Travel {
-  String? start;
-  String? end;
+  Timestamp? start;
+  Timestamp? end;
   String? duration;
   int? distance;
   String? bikeId;
