@@ -44,10 +44,11 @@ class _PartsPageState extends State<PartsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              flex: 3,
+              flex: 2,
               child: Card(
-                elevation: 8,
-                margin: const EdgeInsets.all(12),
+                color: Colors.blueGrey,
+                elevation: 8, 
+                
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Row(
@@ -55,7 +56,8 @@ class _PartsPageState extends State<PartsPage> {
                       const Expanded(
                           flex: 2,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
                                 Icons.pedal_bike_sharp,
@@ -71,7 +73,7 @@ class _PartsPageState extends State<PartsPage> {
                             Text(
                               currentBike.label!,
                               style: GoogleFonts.acme(
-                                color: Colors.blue,
+                                color: const Color.fromARGB(255, 255, 255, 255),
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 2,
@@ -80,7 +82,7 @@ class _PartsPageState extends State<PartsPage> {
                             Text(
                               currentBike.model!,
                               style: GoogleFonts.acme(
-                                color: Colors.blue,
+                                color: const Color.fromARGB(255, 255, 255, 255),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 1,
@@ -89,7 +91,7 @@ class _PartsPageState extends State<PartsPage> {
                             Text(
                               "KM:" + currentBike.traveledKm!.toString(),
                               style: GoogleFonts.acme(
-                                color: Colors.blue,
+                                color: const Color.fromARGB(255, 255, 255, 255),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 1,
@@ -160,7 +162,7 @@ class _PartsPageState extends State<PartsPage> {
                             );
                           },
                           child: Card(
-                            elevation: 8,
+                            elevation: 6,
                             margin: const EdgeInsets.all(12),
                             child: Padding(
                               padding: const EdgeInsets.all(16),
