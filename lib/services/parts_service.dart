@@ -132,6 +132,13 @@ class PartService extends ChangeNotifier {
 
   Future<void> deletePart(String partId) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
+    List<Part> parts;
+    print("\n\n\n");
+    print("\n\n\n");
+    print("Entrou em Delete");
+    print(partId);
+    print("\n\n\n");
+    print("\n\n\n");
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
       int? userId = _authService!.dbUser!.id;
@@ -148,14 +155,12 @@ class PartService extends ChangeNotifier {
             .collection('bikes')
             .doc(bikeId)
             .collection("parts");
-
+  
         DocumentSnapshot partDoc = await partCollection
-            .doc(bikeId)
-            .collection("parts")
             .doc(partId)
             .get();
         if (partDoc.exists) {
-          await partCollection.doc(bikeId).delete();
+          await partCollection.doc(partId).delete();
 
           QuerySnapshot partSnapshot = await db
               .collection("user")
@@ -165,10 +170,10 @@ class PartService extends ChangeNotifier {
               .collection("parts")
               .get();
 
-          List<Part> parts;
           parts = partSnapshot.docs.map((part) {
             return Part.fromJson(part.data() as Map<String, dynamic>, part.id);
           }).toList();
+
           _setParts(parts);
         } else {
           print("Bicicleta com ID $bikeId não encontrada.");

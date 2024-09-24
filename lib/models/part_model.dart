@@ -6,13 +6,13 @@ class Part {
   int? maxKm;
   int? traveledKm;
 
-  Part(
-      {this.id,
-      this.name,
-      this.label,
-      this.needRepair,
-      this.maxKm,
-      this.traveledKm});
+  Part({this.id, this.name, this.label, this.maxKm, this.traveledKm}) {
+    if (traveledKm! > maxKm!) {
+      this.needRepair = true;
+    } else {
+      this.needRepair = false;
+    }
+  }
 
   Part.fromJson(Map<String, dynamic> json, String partId) {
     id = partId;

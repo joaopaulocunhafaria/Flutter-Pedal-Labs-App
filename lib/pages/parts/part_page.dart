@@ -1,8 +1,8 @@
 import 'package:bike/models/bike_model.dart';
 import 'package:bike/models/part_model.dart';
 import 'package:bike/pages/bikes/add_bike_page.dart';
-import 'package:bike/pages/bikes/edit_bike_page.dart';
-import 'package:bike/services/bike_service.dart';
+import 'package:bike/pages/parts/add_part_page.dart';
+import 'package:bike/pages/parts/edit_part_page.dart';
 import 'package:bike/services/parts_service.dart';
 import 'package:bike/widgets/app_bar.dart';
 import 'package:bike/widgets/bottom_navigation_barr.dart';
@@ -150,7 +150,14 @@ class _PartsPageState extends State<PartsPage> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            // Navegar para outra tela
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => EditPartPage(
+                                  bike: currentBike,
+                                  part: parts[index],
+                                ),
+                              ),
+                            );
                           },
                           child: Card(
                             elevation: 8,
@@ -224,13 +231,10 @@ class _PartsPageState extends State<PartsPage> {
                                       flex: 2,
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.end,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.end,
                                         children: [
-                                          IconButton(
-                                              onPressed: () => {},
-                                              icon: const Icon(Icons.edit)),
                                           IconButton(
                                               onPressed: () => {
                                                     showDialog(
@@ -336,7 +340,9 @@ class _PartsPageState extends State<PartsPage> {
                     onPressed: () {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
-                          builder: (context) => const AddBikePage(),
+                          builder: (context) => AddPartPage(
+                            bike: currentBike,
+                          ),
                         ),
                       );
                     },
