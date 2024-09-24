@@ -1,6 +1,6 @@
-import 'package:bike/models/bike_model.dart'; 
+import 'package:bike/models/bike_model.dart';
 import 'package:bike/services/auth_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -185,5 +185,36 @@ class BikeService extends ChangeNotifier {
     }
 
     return bikes;
+  }
+
+  Future<Bike?> getBikeById(String bikeID) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    Bike bike;
+
+    if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
+      int? userId = _authService!.dbUser!.id;
+
+      QuerySnapshot userSnapshot =
+          await db.collection('user').where('id', isEqualTo: userId).get();
+
+      if (userSnapshot.docs.isNotEmpty) {
+        DocumentSnapshot userDoc = userSnapshot.docs.first;
+
+        DocumentSnapshot bikeDoc = await db
+            .collection("user")
+            .doc(userDoc.id)
+            .collection('bikes')
+            .doc(bikeID)
+            .get();
+
+        bike =
+            Bike.fromJson(bikeDoc.data() as Map<String, dynamic>, bikeDoc.id);
+        return bike;
+      } else {
+        print("Usuário não encontrado.");
+      }
+    } else {
+      print("Erro: Usuário não encontrado ou ID inválido.");
+    }
   }
 }

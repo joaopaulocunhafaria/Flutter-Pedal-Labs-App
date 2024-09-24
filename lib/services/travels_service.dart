@@ -17,7 +17,6 @@ class TravelService extends ChangeNotifier {
   void setAuthService(AuthService authService) {
     _authService = authService;
   }
- 
 
   _getTravels() async {
     travels = await getTravels();
@@ -86,16 +85,15 @@ class TravelService extends ChangeNotifier {
             .collection("user")
             .doc(userDoc.id)
             .collection("travels")
+            .orderBy("start", descending: true)
             .get();
 
         travel = travelSnapshot.docs.map((elem) {
-          print("travel.data()");
-          print(elem.data());
+
           return Travel.fromJson(elem.data() as Map<String, dynamic>);
         }).toList();
 
-        print("Travels length");
-        print(travel.length);
+      
         _setTravels(travel);
       } else {
         print("Usuário não encontrado.");
