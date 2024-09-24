@@ -1,9 +1,6 @@
-import 'package:bike/models/bike_model.dart';
-import 'package:bike/models/db_user_model.dart';
 import 'package:bike/models/part_model.dart';
 import 'package:bike/services/auth_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -155,7 +152,7 @@ class PartService extends ChangeNotifier {
             .collection('bikes')
             .doc(bikeId)
             .collection("parts");
-  
+
         DocumentSnapshot partDoc = await partCollection
             .doc(partId)
             .get();

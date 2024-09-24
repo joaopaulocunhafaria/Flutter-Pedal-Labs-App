@@ -1,6 +1,5 @@
 import 'package:bike/pages/home/home_page.dart';
-import 'package:bike/pages/info/info_page.dart';
-import 'package:bike/pages/login/login_page.dart';
+import 'package:bike/pages/info/info_page.dart'; 
 import 'package:bike/pages/login/login_with_google.dart';
 import 'package:bike/pages/profile/profile_page.dart';
 import 'package:bike/services/auth_service.dart';

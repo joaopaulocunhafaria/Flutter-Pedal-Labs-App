@@ -1,8 +1,6 @@
-import 'package:bike/models/bike_model.dart';
-import 'package:bike/models/db_user_model.dart';
+import 'package:bike/models/bike_model.dart'; 
 import 'package:bike/services/auth_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -100,7 +98,7 @@ class BikeService extends ChangeNotifier {
           bikes = bikeSnapshot.docs.map((doc) {
             return Bike.fromJson(doc.data() as Map<String, dynamic>, doc.id);
           }).toList();
-          _setBikes(bikes!);
+          _setBikes(bikes);
           notifyListeners();
         } else {
           print("Bicicleta com ID $bikeId não encontrada.");
@@ -142,7 +140,7 @@ class BikeService extends ChangeNotifier {
           bikes = bikeSnapshot.docs.map((doc) {
             return Bike.fromJson(doc.data() as Map<String, dynamic>, doc.id);
           }).toList();
-          _setBikes(bikes!);
+          _setBikes(bikes);
 
           notifyListeners();
         } else {
