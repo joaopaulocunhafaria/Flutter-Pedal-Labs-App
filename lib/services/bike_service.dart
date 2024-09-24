@@ -189,11 +189,9 @@ class BikeService extends ChangeNotifier {
 
   Future<Bike?> getBikeById(String bikeID) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    Bike bike;
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
       int? userId = _authService!.dbUser!.id;
-
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: userId).get();
 
@@ -207,14 +205,14 @@ class BikeService extends ChangeNotifier {
             .doc(bikeID)
             .get();
 
-        bike =
-            Bike.fromJson(bikeDoc.data() as Map<String, dynamic>, bikeDoc.id);
-        return bike;
+        return Bike.fromJson(
+            bikeDoc.data() as Map<String, dynamic>, bikeDoc.id);
       } else {
         print("Usuário não encontrado.");
       }
     } else {
       print("Erro: Usuário não encontrado ou ID inválido.");
     }
+    return null;
   }
 }
