@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Travel {
   Timestamp? start;
   Timestamp? end;
-  String? duration;
+  int? duration;
   int? distance;
   String? bikeId;
   String? randomIdentifier;
