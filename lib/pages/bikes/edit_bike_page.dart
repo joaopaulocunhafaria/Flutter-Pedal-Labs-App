@@ -13,7 +13,7 @@ class EditBikePage extends StatefulWidget {
   final String marca;
   final String modelo;
   final String id;
-  final int km;
+  final double km;
 
   const EditBikePage({
     Key? key,
@@ -145,7 +145,7 @@ class _EditBikePageState extends State<EditBikePage> {
                         Bike newBike = Bike(
                             model: modeloControler.text,
                             label: marcaControler.text,
-                            traveledKm: int.parse(kmControler.text));
+                            traveledKm: double.parse(kmControler.text));
                         await bikeService.updateBike(widget.id,newBike);
 
                         Navigator.of(context).pushReplacement(

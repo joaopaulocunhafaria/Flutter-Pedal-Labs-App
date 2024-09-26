@@ -124,7 +124,7 @@ class _AddBikePageState extends State<AddBikePage> {
                         Bike newBike = Bike(
                             model: modeloControler.text,
                             label: marcaControler.text,
-                            traveledKm: int.parse(kmControler.text));
+                            traveledKm: double.parse(kmControler.text));
                         await bikeService.addBike(newBike);
 
                         Navigator.of(context).pushReplacement(

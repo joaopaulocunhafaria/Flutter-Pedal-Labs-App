@@ -161,7 +161,7 @@ class _AddPartPageState extends State<AddPartPage> {
                             name: nameControler.text,
                             label: labelControler.text,
                             maxKm: int.parse(maxkmControler.text),
-                            traveledKm: int.parse(traveledkmControler.text));
+                            traveledKm: double.parse(traveledkmControler.text));
                         await partService.addPart(newPart);
 
                         Navigator.of(context).pushReplacement(

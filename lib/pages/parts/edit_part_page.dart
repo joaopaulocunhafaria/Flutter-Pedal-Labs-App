@@ -174,7 +174,7 @@ class _EditPartPageState extends State<EditPartPage> {
                             name: nameControler.text,
                             label: labelControler.text,
                             maxKm: int.parse(maxkmControler.text),
-                            traveledKm: int.parse(traveledkmControler.text));
+                            traveledKm: double.parse(traveledkmControler.text));
                         await partService.updatePart(widget.part.id!, newPart);
 
                         Navigator.of(context).pushReplacement(
