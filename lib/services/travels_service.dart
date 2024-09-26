@@ -32,7 +32,7 @@ class TravelService extends ChangeNotifier {
     List<Travel> travel = [];
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? id = _authService!.dbUser!.id;
+      String? id = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: id).get();
@@ -73,7 +73,7 @@ class TravelService extends ChangeNotifier {
     List<Travel> travel = [];
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? userId = _authService!.dbUser!.id;
+      String? userId = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: userId).get();

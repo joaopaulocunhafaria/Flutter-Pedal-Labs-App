@@ -3,7 +3,7 @@ class DbUser {
   String? email;
   String? cellphone;
   int? traveledKm;
-  int? id;
+  String? id;
 
   DbUser({this.name, this.email, this.cellphone, this.traveledKm, this.id});
 

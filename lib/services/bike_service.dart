@@ -31,7 +31,7 @@ class BikeService extends ChangeNotifier {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? id = _authService!.dbUser!.id;
+      String? id = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: id).get();
@@ -72,7 +72,7 @@ class BikeService extends ChangeNotifier {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? userId = _authService!.dbUser!.id;
+      String? userId = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: userId).get();
@@ -115,7 +115,7 @@ class BikeService extends ChangeNotifier {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? userId = _authService!.dbUser!.id;
+      String? userId = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: userId).get();
@@ -159,7 +159,7 @@ class BikeService extends ChangeNotifier {
     List<Bike> bikes = [];
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? userId = _authService!.dbUser!.id;
+      String? userId = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: userId).get();
@@ -178,7 +178,7 @@ class BikeService extends ChangeNotifier {
 
         _setBikes(bikes);
       } else {
-        print("Usuário não encontrado.");
+        print("Usuário não encontrado. aqui");
       }
     } else {
       print("Erro: Usuário não encontrado ou ID inválido.");
@@ -191,7 +191,7 @@ class BikeService extends ChangeNotifier {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? userId = _authService!.dbUser!.id;
+      String? userId = _authService!.dbUser!.id;
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: userId).get();
 

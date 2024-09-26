@@ -35,7 +35,7 @@ class PartService extends ChangeNotifier {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? id = _authService!.dbUser!.id;
+      String? id = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: id).get();
@@ -82,7 +82,7 @@ class PartService extends ChangeNotifier {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? userId = _authService!.dbUser!.id;
+      String? userId = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: userId).get();
@@ -138,7 +138,7 @@ class PartService extends ChangeNotifier {
     print("\n\n\n");
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? userId = _authService!.dbUser!.id;
+      String? userId = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: userId).get();
@@ -188,7 +188,7 @@ class PartService extends ChangeNotifier {
     List<Part> parts = [];
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? userId = _authService!.dbUser!.id;
+      String? userId = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: userId).get();
