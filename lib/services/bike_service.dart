@@ -215,4 +215,60 @@ class BikeService extends ChangeNotifier {
     }
     return null;
   }
+
+  Future<void> increaseKm(String bikeId, double km) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+
+    if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
+      String? userId = _authService!.dbUser!.id;
+      QuerySnapshot userSnapshot =
+          await db.collection('user').where('id', isEqualTo: userId).get();
+
+      if (userSnapshot.docs.isNotEmpty) {
+        DocumentSnapshot userDoc = userSnapshot.docs.first;
+
+        DocumentSnapshot bikeSnap = await db
+            .collection("user")
+            .doc(userDoc.id)
+            .collection('bikes')
+            .doc(bikeId)
+            .get();
+
+        DocumentReference bikeDoc = await db
+            .collection("user")
+            .doc(userDoc.id)
+            .collection('bikes')
+            .doc(bikeId);
+
+        Bike bikeToBeUpdated =
+            Bike.fromJson(bikeSnap.data() as Map<String, dynamic>, bikeSnap.id);
+
+        print("");
+        print("");
+        print("old km");
+        print(bikeToBeUpdated.traveledKm);
+        print("");
+        print("");
+
+        //aumenta a kilometragem da bike
+        bikeToBeUpdated.traveledKm = (bikeToBeUpdated.traveledKm ?? 0) + km;
+        print("");
+        print("");
+        print("New km");
+        print( bikeToBeUpdated.traveledKm);
+        print("");
+        //atualiza a bike no banco
+        bikeDoc.update(bikeToBeUpdated.toJson());
+
+        //seta as bike apartir da atualizacao
+        List<Bike> newBikes = await getBikes();
+        _setBikes(newBikes);
+      } else {
+        print("Usuário não encontrado.");
+      }
+    } else {
+      print("Erro: Usuário não encontrado ou ID inválido.");
+    }
+    return null;
+  }
 }
