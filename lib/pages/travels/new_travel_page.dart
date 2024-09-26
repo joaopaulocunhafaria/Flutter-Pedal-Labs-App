@@ -1,14 +1,21 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:bike/models/bike_model.dart';
+import 'package:bike/models/part_model.dart';
 import 'package:bike/models/travel_model.dart';
+import 'package:bike/services/bike_service.dart';
+import 'package:bike/services/parts_service.dart';
+import 'package:bike/services/travels_service.dart';
 import 'package:bike/widgets/app_bar.dart';
 import 'package:bike/widgets/bottom_navigation_barr.dart';
 import 'package:bike/widgets/drawer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class NewTravelPage extends StatefulWidget {
   final Bike bike;
@@ -20,55 +27,110 @@ class NewTravelPage extends StatefulWidget {
 
 class _NewTravelPageState extends State<NewTravelPage>
     with TickerProviderStateMixin {
-  Timer? _timer;
+  late DateTime start;
+  late DateTime end;
+  int duration = 0;
   Position? currentPosition;
-  Position? lastPosition;
-  Position? position;
+  int counter = 0;
   bool isRuning = false;
-  double meters = 0;
+  double distance = 0;
   double auxiliaryMeters = 0;
 
   late Bike bike;
   late Travel travel;
 
+  late TravelService travelService;
+  late BikeService bikeService;
+  late PartService partService;
+
   @override
   void initState() {
     super.initState();
+    Geolocator.checkPermission().then((value) {
+      if (value == LocationPermission.denied) {
+        Geolocator.requestPermission().then((value) {
+          if (value == LocationPermission.denied) {
+            Geolocator.requestPermission().then((value) {
+              return Future.error(
+                  "Habilite o acesso a localizacao no seu aparelho!");
+            });
+          }
+        });
+      }
+    });
     bike = widget.bike;
   }
 
-  void _startRefreshingLocation()async {
-    _timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
-      await  _getCurrentLocation();
+  Future<void> _startRefreshingLocation() async {
+    setState(() {
+      isRuning = true;
+      start = DateTime.now();
+    });
+    currentPosition = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+
+    final LocationSettings locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 10,
+    );
+    StreamSubscription<Position> positionStream =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position? position) {
+      setState(() {
+        distance += 10;
+        duration = DateTime.now().difference(start).inMinutes;
+        currentPosition = position;
+        counter++;
+      });
     });
   }
 
-  void _stopRefreshingLocation()async { 
+  void _stopRefreshingLocation() async {
+    setState(() {
+      isRuning = false;
+      end = DateTime.now();
+    });
 
-    _timer = Timer.periodic(Duration.zero, (timer) {});
-    _timer?.cancel();
+    //calcula a distancia total em km
+    double distanceInKm = distance / 100;
 
-    lastPosition = currentPosition;
-    position = lastPosition;
+    //calcula o tempo gasto em hrs
+    duration = end.difference(start).inHours;
 
-    meters = 0;
-    auxiliaryMeters = 0;
-    sleep(Duration(seconds: 1));
-    await _getCurrentLocation();
+    //cria um identificador aleatorio
+    String randomIdentifier = createRandomIdentifier(15);
+
+//atualiza a viagem local
+    Timestamp startTime = Timestamp.fromDate(start);
+    Timestamp endTime = Timestamp.fromDate(end);
+    travel = Travel(
+        start: startTime,
+        end: endTime,
+        randomIdentifier: randomIdentifier,
+        bikeId: bike.id,
+        duration: duration,
+        distance: distanceInKm);
   }
 
-  Future<void> _getCurrentLocation() async {
-    try {
-      position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.bestForNavigation);
-    } catch (erro) {
-      position = lastPosition;
-      print("Não foi possível obter a localização :");
-    }
+  String createRandomIdentifier(int tamanho) {
+    const String caracteres =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    Random random = Random();
+
+    // Gera uma string com 'tamanho' caracteres aleatórios
+    return String.fromCharCodes(Iterable.generate(
+      tamanho,
+      (_) => caracteres.codeUnitAt(random.nextInt(caracteres.length)),
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
+    travelService = Provider.of<TravelService>(context);
+    bikeService = Provider.of<BikeService>(context);
+    partService = Provider.of<PartService>(context);
+
     return Scaffold(
       drawer: const DefaultDrawer(),
       bottomNavigationBar: const BottomBar(selectedIndex: 2),
@@ -95,15 +157,41 @@ class _NewTravelPageState extends State<NewTravelPage>
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                              'Distancia em metros: ${isRuning == true ? meters.toStringAsFixed(2) : 0} ',
+                          Text('Distancia em metros: $distance ',
                               style: GoogleFonts.acme(
                                 color: const Color.fromARGB(255, 0, 0, 0),
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 2,
                               )),
-                         
+                          Text('Latitude: ${currentPosition?.latitude}',
+                              style: GoogleFonts.acme(
+                                color: const Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 2,
+                              )),
+                          Text('Longitude: ${currentPosition?.longitude}',
+                              style: GoogleFonts.acme(
+                                color: const Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 2,
+                              )),
+                          Text('Posicao alterada: $counter vezes',
+                              style: GoogleFonts.acme(
+                                color: const Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 2,
+                              )),
+                          Text('Duracao da viagem: $duration min',
+                              style: GoogleFonts.acme(
+                                color: const Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 2,
+                              )),
                         ],
                       )
                     : Center()),
@@ -127,22 +215,25 @@ class _NewTravelPageState extends State<NewTravelPage>
                             Icons.play_arrow,
                             color: Colors.blue,
                           ),
-                    onPressed: () async{
+                    onPressed: () async {
                       if (isRuning) {
                         //termina a corrida
                         _stopRefreshingLocation();
-                        setState(() {
-                          isRuning = false;
-                        });
+                        //salva no banco
+                        await travelService.addTravel(travel);
+
+                        //aumenta os kms na bike e nas pecas usadas.
+                        bikeService.increaseKm(bike.id!, distance);
+                        partService.increaseKm(bike.id!, distance);
+
+                        //reseta as variaveis
+                        clearData();
                         return;
                       }
                       if (!isRuning) {
                         //comeca a corrida
-                        _startRefreshingLocation();
+                        await _startRefreshingLocation();
 
-                        setState(() {
-                          isRuning = true;
-                        });
                         return;
                       }
                     },
@@ -154,5 +245,10 @@ class _NewTravelPageState extends State<NewTravelPage>
         ),
       ),
     );
+  }
+
+  void clearData() {
+    duration = 0;
+    distance = 0.0;
   }
 }
