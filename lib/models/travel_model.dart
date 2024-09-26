@@ -4,7 +4,7 @@ class Travel {
   Timestamp? start;
   Timestamp? end;
   int? duration;
-  int? distance;
+  double? distance;
   String? bikeId;
   String? randomIdentifier;
 
@@ -20,7 +20,7 @@ class Travel {
     start = json['start'];
     end = json['end'];
     duration = json['duration'];
-    distance = json['distance'];
+    distance = double.parse(json['distance'].toString());
     bikeId = json['bikeId'];
     randomIdentifier = json['randomIdentifier'];
   }
