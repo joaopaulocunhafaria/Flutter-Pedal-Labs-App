@@ -18,7 +18,7 @@ class DefaultDrawer extends StatefulWidget {
 
 class _DefaultDrawerState extends State<DefaultDrawer> {
   String? userEmail;
-  Future<String?> getUserNameFromFirestore() async {
+  Future<String?> getUserEmailFromFirestore() async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       userEmail = currentUser.email;
@@ -26,7 +26,7 @@ class _DefaultDrawerState extends State<DefaultDrawer> {
           .collection('usuarios')
           .doc(currentUser.uid)
           .get();
-      return (userDoc.data() as Map<String, dynamic>)['nome'];
+      return (userDoc.data() as Map<String, dynamic>)['email'];
     }
     return null;
   }
@@ -73,7 +73,7 @@ class _DefaultDrawerState extends State<DefaultDrawer> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FutureBuilder<String?>(
-                      future: getUserNameFromFirestore(),
+                      future: getUserEmailFromFirestore(),
                       builder: (BuildContext context,
                           AsyncSnapshot<String?> snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {

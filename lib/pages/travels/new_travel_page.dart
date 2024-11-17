@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
-
 import 'package:bike/models/bike_model.dart';
-import 'package:bike/models/part_model.dart';
 import 'package:bike/models/travel_model.dart';
 import 'package:bike/services/bike_service.dart';
 import 'package:bike/services/parts_service.dart';
@@ -16,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer' as dev;
 
 class NewTravelPage extends StatefulWidget {
   final Bike bike;
@@ -93,7 +91,7 @@ class _NewTravelPageState extends State<NewTravelPage>
     });
 
     //calcula a distancia total em km
-    double distanceInKm = distance / 100;
+    double distanceInKm = distance / 1000;
 
     //calcula o tempo gasto em hrs
     duration = end.difference(start).inHours;
@@ -221,17 +219,18 @@ class _NewTravelPageState extends State<NewTravelPage>
                         _stopRefreshingLocation();
                         //salva no banco
                         await travelService.addTravel(travel);
-
+ 
                         //aumenta os kms na bike e nas pecas usadas.
-                        bikeService.increaseKm(bike.id!, distance);
-                        partService.increaseKm(bike.id!, distance);
+                        bikeService.increaseKm(bike.id!, travel.distance!);
+                        partService.increaseKm(bike.id!, travel.distance!);
 
                         //reseta as variaveis
                         clearData();
                         return;
                       }
                       if (!isRuning) {
-                        //comeca a corrida
+                        //comeca a corrida 
+
                         await _startRefreshingLocation();
 
                         return;

@@ -231,12 +231,13 @@ class _PartsPageState extends State<PartsPage> {
                                   ),
                                   Expanded(
                                       flex: 2,
-                                      child: Column(
+                                      child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                            CrossAxisAlignment.center,
                                         children: [
+                                          Icon(Icons.circle,color:parts[index].traveledKm! > parts[index].maxKm!?Colors.red:Colors.green ,),
                                           IconButton(
                                               onPressed: () => {
                                                     showDialog(
