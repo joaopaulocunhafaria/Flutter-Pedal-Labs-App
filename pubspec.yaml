@@ -90,6 +90,8 @@ flutter:
     - lib/pics/wheel2.png
     - assets/biking.gif
     - assets/icon.png
+    - assets/PedalLogo.svg
+    - assets/pedalLogo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
