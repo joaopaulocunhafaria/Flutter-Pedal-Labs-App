@@ -3,6 +3,7 @@ import 'package:bike/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:bike/services/log_service.dart';
 
 class BikeException implements Exception {
   String message;
@@ -11,6 +12,7 @@ class BikeException implements Exception {
 
 class BikeService extends ChangeNotifier {
   List<Bike>? bike;
+  LogService ls = LogService();
 
   AuthService? _authService;
 
@@ -243,20 +245,17 @@ class BikeService extends ChangeNotifier {
         Bike bikeToBeUpdated =
             Bike.fromJson(bikeSnap.data() as Map<String, dynamic>, bikeSnap.id);
 
-        print("");
-        print("");
-        print("old km");
-        print(bikeToBeUpdated.traveledKm);
-        print("");
-        print("");
+        ls.log("Old Km", "Testing increase function");
+        ls.log(
+            bikeToBeUpdated.traveledKm.toString(), "Testing increase function");
 
         //aumenta a kilometragem da bike
         bikeToBeUpdated.traveledKm = (bikeToBeUpdated.traveledKm ?? 0) + km;
-        print("");
-        print("");
-        print("New km");
-        print( bikeToBeUpdated.traveledKm);
-        print("");
+
+        ls.log("Old Km", "Testing increase function");
+        ls.log(
+            bikeToBeUpdated.traveledKm.toString(), "Testing increase function");
+
         //atualiza a bike no banco
         bikeDoc.update(bikeToBeUpdated.toJson());
 

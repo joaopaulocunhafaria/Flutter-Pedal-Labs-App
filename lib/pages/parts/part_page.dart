@@ -47,8 +47,7 @@ class _PartsPageState extends State<PartsPage> {
               flex: 2,
               child: Card(
                 color: Colors.blueGrey,
-                elevation: 8, 
-                
+                elevation: 8,
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Row(
@@ -72,7 +71,7 @@ class _PartsPageState extends State<PartsPage> {
                           children: [
                             Text(
                               currentBike.label!,
-                              style: GoogleFonts.acme(
+                              style: GoogleFonts.inter(
                                 color: const Color.fromARGB(255, 255, 255, 255),
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -81,7 +80,7 @@ class _PartsPageState extends State<PartsPage> {
                             ),
                             Text(
                               currentBike.model!,
-                              style: GoogleFonts.acme(
+                              style: GoogleFonts.inter(
                                 color: const Color.fromARGB(255, 255, 255, 255),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -90,7 +89,7 @@ class _PartsPageState extends State<PartsPage> {
                             ),
                             Text(
                               "KM:" + currentBike.traveledKm!.toString(),
-                              style: GoogleFonts.acme(
+                              style: GoogleFonts.inter(
                                 color: const Color.fromARGB(255, 255, 255, 255),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -123,7 +122,7 @@ class _PartsPageState extends State<PartsPage> {
                     return Center(
                       child: Text(
                         "Erro ao carregar peças",
-                        style: GoogleFonts.acme(
+                        style: GoogleFonts.inter(
                           color: Colors.blue,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -137,7 +136,7 @@ class _PartsPageState extends State<PartsPage> {
                       return Center(
                         child: Text(
                           "Você não tem nenhuma peças registrada.",
-                          style: GoogleFonts.acme(
+                          style: GoogleFonts.inter(
                             color: Colors.blue,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -188,7 +187,7 @@ class _PartsPageState extends State<PartsPage> {
                                       children: [
                                         Text(
                                           parts[index].name!,
-                                          style: GoogleFonts.acme(
+                                          style: GoogleFonts.inter(
                                             color: Colors.blue,
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -197,7 +196,7 @@ class _PartsPageState extends State<PartsPage> {
                                         ),
                                         Text(
                                           parts[index].label!,
-                                          style: GoogleFonts.acme(
+                                          style: GoogleFonts.inter(
                                             color: Colors.blue,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
@@ -207,7 +206,7 @@ class _PartsPageState extends State<PartsPage> {
                                         Text(
                                           "Limit Km:" +
                                               parts[index].maxKm!.toString(),
-                                          style: GoogleFonts.acme(
+                                          style: GoogleFonts.inter(
                                             color: Colors.blue,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
@@ -219,7 +218,7 @@ class _PartsPageState extends State<PartsPage> {
                                               parts[index]
                                                   .traveledKm!
                                                   .toString(),
-                                          style: GoogleFonts.acme(
+                                          style: GoogleFonts.inter(
                                             color: Colors.blue,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
@@ -231,12 +230,19 @@ class _PartsPageState extends State<PartsPage> {
                                   ),
                                   Expanded(
                                       flex: 2,
-                                      child: Column(
+                                      child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                            CrossAxisAlignment.center,
                                         children: [
+                                          Icon(
+                                            Icons.circle,
+                                            color: parts[index].traveledKm! >
+                                                    parts[index].maxKm!
+                                                ? Colors.red
+                                                : Colors.green,
+                                          ),
                                           IconButton(
                                               onPressed: () => {
                                                     showDialog(
@@ -316,7 +322,7 @@ class _PartsPageState extends State<PartsPage> {
                   return Center(
                       child: Text(
                     "Nenhum dado disponível.",
-                    style: GoogleFonts.acme(
+                    style: GoogleFonts.inter(
                       color: Colors.blue,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,

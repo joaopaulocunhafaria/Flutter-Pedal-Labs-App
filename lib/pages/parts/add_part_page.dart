@@ -63,7 +63,7 @@ class _AddPartPageState extends State<AddPartPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text("Adicionar nova Peça",
-                      style: GoogleFonts.acme(
+                      style: GoogleFonts.inter(
                         color: Colors.blue,
                         fontSize: 35,
                         fontWeight: FontWeight.bold,

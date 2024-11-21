@@ -49,7 +49,7 @@ class _AddBikePageState extends State<AddBikePage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text("Adicionar nova Bike",
-                      style: GoogleFonts.acme(
+                      style: GoogleFonts.inter(
                         color: Colors.blue,
                         fontSize: 35,
                         fontWeight: FontWeight.bold,

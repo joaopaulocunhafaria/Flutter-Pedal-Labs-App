@@ -41,9 +41,9 @@ class _TravelsState extends State<Travels> {
                     padding: const EdgeInsets.only(top: 18.0),
                     child: Center(
                       child: Text("Histórico de Viagens",
-                          style: GoogleFonts.acme(
+                          style: GoogleFonts.inter(
                             color: const Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 35,
+                            fontSize: 25  ,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 2,
                           )),
@@ -58,8 +58,8 @@ class _TravelsState extends State<Travels> {
                       return Center(
                         child: Text(
                           "Erro ao carregar viagens",
-                          style: GoogleFonts.acme(
-                            color: Colors.blue,
+                          style: GoogleFonts.inter(
+                            color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 2,
@@ -72,8 +72,8 @@ class _TravelsState extends State<Travels> {
                         return Center(
                           child: Text(
                             "Você não tem nenhuma viagem registrada.",
-                            style: GoogleFonts.acme(
-                              color: Colors.blue,
+                            style: GoogleFonts.inter(
+                              color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 2,
@@ -99,6 +99,7 @@ class _TravelsState extends State<Travels> {
                               );
                             },
                             child: Card(
+                              color: Colors.blueGrey,
                               elevation: 8,
                               margin: const EdgeInsets.all(12),
                               child: Padding(
@@ -126,8 +127,8 @@ class _TravelsState extends State<Travels> {
                                           Text(
                                             DateFormat("dd/MM/yyyy").format(
                                                 travels[index].start!.toDate()),
-                                            style: GoogleFonts.acme(
-                                              color: Colors.blue,
+                                            style: GoogleFonts.inter(
+                                              color: Colors.white,
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                               letterSpacing: 2,
@@ -138,8 +139,8 @@ class _TravelsState extends State<Travels> {
                                                     .distance!
                                                     .toString() +
                                                 " Km Percorridos",
-                                            style: GoogleFonts.acme(
-                                              color: Colors.blue,
+                                            style: GoogleFonts.inter(
+                                              color: Colors.white,
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
                                               letterSpacing: 1,
@@ -160,7 +161,7 @@ class _TravelsState extends State<Travels> {
                     return Center(
                         child: Text(
                       "Nenhum dado disponível.",
-                      style: GoogleFonts.acme(
+                      style: GoogleFonts.inter(
                         color: Colors.blue,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -176,7 +177,7 @@ class _TravelsState extends State<Travels> {
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(9),
-                        color: Colors.blue),
+                        color: Colors.white),
                     margin: EdgeInsets.all(10),
                     child: IconButton(
                       icon: const Icon(
@@ -189,7 +190,7 @@ class _TravelsState extends State<Travels> {
                           builder: (context) => AlertDialog(
                             title: const Center(
                               child: Text(
-                                "Escolha uma bike!",
+                                "Escolha uma bike:",
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 0, 0, 0)),
                               ),
@@ -199,14 +200,28 @@ class _TravelsState extends State<Travels> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                    FutureBuilder<List<Bike>>(
-                                      future: bikeService.getBikes(),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasError) {
+                                  FutureBuilder<List<Bike>>(
+                                    future: bikeService.getBikes(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasError) {
+                                        return Center(
+                                          child: Text(
+                                            "Erro ao carregar bikes",
+                                            style: GoogleFonts.inter(
+                                              color: Colors.blue,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 2,
+                                            ),
+                                          ),
+                                        );
+                                      } else if (snapshot.hasData) {
+                                        List<Bike> bikes = snapshot.data!;
+                                        if (bikes.isEmpty) {
                                           return Center(
                                             child: Text(
-                                              "Erro ao carregar bikes",
-                                              style: GoogleFonts.acme(
+                                              "Você não tem nenhuma bike registrada.",
+                                              style: GoogleFonts.inter(
                                                 color: Colors.blue,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold,
@@ -214,147 +229,132 @@ class _TravelsState extends State<Travels> {
                                               ),
                                             ),
                                           );
-                                        } else if (snapshot.hasData) {
-                                          List<Bike> bikes = snapshot.data!;
-                                          if (bikes.isEmpty) {
-                                            return Center(
-                                              child: Text(
-                                                "Você não tem nenhuma bike registrada.",
-                                                style: GoogleFonts.acme(
-                                                  color: Colors.blue,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                  letterSpacing: 2,
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                          // ListView baseado no número de bikes
-                                          return Container(
-                                            width: 250,
-                                            height: 400,
-                                            child: ListView.builder(
-                                              itemCount: bikes.length,
-                                              itemBuilder: (context, index) {
-                                                return InkWell(
-                                                  onTap: () {
-                                                    Navigator.of(context)
-                                                        .pushReplacement(
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            NewTravelPage(
-                                                          bike: bikes[index],
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Card(
-                                                    elevation: 8,
-                                                    margin:
-                                                        const EdgeInsets.all(12),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              16),
-                                                      child: Row(
-                                                        children: [
-                                                          const Expanded(
-                                                              flex: 2,
-                                                              child: Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Icon(
-                                                                    Icons
-                                                                        .pedal_bike_sharp,
-                                                                    size: 40,
-                                                                  ),
-                                                                ],
-                                                              )),
-                                                          Expanded(
-                                                            flex: 2,
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Text(
-                                                                  bikes[index]
-                                                                      .label!,
-                                                                  style:
-                                                                      GoogleFonts
-                                                                          .acme(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    fontSize: 16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    letterSpacing:
-                                                                        2,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  bikes[index]
-                                                                      .model!,
-                                                                  style:
-                                                                      GoogleFonts
-                                                                          .acme(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    fontSize: 14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    letterSpacing:
-                                                                        1,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  "KM:" +
-                                                                      bikes[index]
-                                                                          .traveledKm!
-                                                                          .toString(),
-                                                                  style:
-                                                                      GoogleFonts
-                                                                          .acme(
-                                                                    color: Colors
-                                                                        .blue,
-                                                                    fontSize: 14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    letterSpacing:
-                                                                        1,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
+                                        }
+                                        // ListView baseado no número de bikes
+                                        return Container(
+                                          width: 250,
+                                          height: 400,
+                                          child: ListView.builder(
+                                            itemCount: bikes.length,
+                                            itemBuilder: (context, index) {
+                                              return InkWell(
+                                                onTap: () {
+                                                  Navigator.of(context)
+                                                      .pushReplacement(
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          NewTravelPage(
+                                                        bike: bikes[index],
                                                       ),
                                                     ),
+                                                  );
+                                                },
+                                                child: Card(
+                                                  elevation: 8,
+                                                  margin:
+                                                      const EdgeInsets.all(12),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16),
+                                                    child: Row(
+                                                      children: [
+                                                        const Expanded(
+                                                            flex: 2,
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Icon(
+                                                                  Icons
+                                                                      .pedal_bike_sharp,
+                                                                  size: 40,
+                                                                ),
+                                                              ],
+                                                            )),
+                                                        Expanded(
+                                                          flex: 2,
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(
+                                                                bikes[index]
+                                                                    .label!,
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .inter(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  letterSpacing:
+                                                                      2,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                bikes[index]
+                                                                    .model!,
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .inter(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  letterSpacing:
+                                                                      1,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                "KM:" +
+                                                                    bikes[index]
+                                                                        .traveledKm!
+                                                                        .toString(),
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .inter(
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  letterSpacing:
+                                                                      1,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                );
-                                              },
-                                            ),
-                                          );
-                                        }
-                                        // Caso nenhum dado esteja disponível
-                                        return Center(
-                                            child: Text(
-                                          "Nenhum dado disponível.",
-                                          style: GoogleFonts.acme(
-                                            color: Colors.blue,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            letterSpacing: -1.2,
+                                                ),
+                                              );
+                                            },
                                           ),
-                                        ));
-                                      },
-                                    ),
-                                 
+                                        );
+                                      }
+                                      // Caso nenhum dado esteja disponível
+                                      return Center(
+                                          child: Text(
+                                        "Nenhum dado disponível.",
+                                        style: GoogleFonts.inter(
+                                          color: Colors.blue,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          letterSpacing: -1.2,
+                                        ),
+                                      ));
+                                    },
+                                  ),
                                 ],
                               )
                             ],

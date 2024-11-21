@@ -53,28 +53,28 @@ class _TravelInfoState extends State<TravelInfo> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Informações da Viagem",
-                        style: GoogleFonts.acme(
+                        style: GoogleFonts.inter(
                           color: Colors.blue,
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 2,
                         )),
                     Text("Inicio: " + start,
-                        style: GoogleFonts.acme(
+                        style: GoogleFonts.inter(
                           color: Colors.black,
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 2,
                         )),
                     Text("Fim: " + end,
-                        style: GoogleFonts.acme(
+                        style: GoogleFonts.inter(
                           color: Colors.black,
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 2,
                         )),
                     Text("Duração: " + travel.duration.toString() + " hr",
-                        style: GoogleFonts.acme(
+                        style: GoogleFonts.inter(
                           color: Colors.black,
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -84,7 +84,7 @@ class _TravelInfoState extends State<TravelInfo> {
                         "Distancia Percorrida: " +
                             travel.distance.toString() +
                             " km",
-                        style: GoogleFonts.acme(
+                        style: GoogleFonts.inter(
                           color: Colors.black,
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -98,7 +98,7 @@ class _TravelInfoState extends State<TravelInfo> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text("Bike Utilizada",
-                        style: GoogleFonts.acme(
+                        style: GoogleFonts.inter(
                           color: Colors.blue,
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
@@ -140,7 +140,7 @@ class _TravelInfoState extends State<TravelInfo> {
                                   children: [
                                     Text(
                                       bike.label!,
-                                      style: GoogleFonts.acme(
+                                      style: GoogleFonts.inter(
                                         color: const Color.fromARGB(
                                             255, 255, 255, 255),
                                         fontSize: 16,
@@ -150,7 +150,7 @@ class _TravelInfoState extends State<TravelInfo> {
                                     ),
                                     Text(
                                       bike.model!,
-                                      style: GoogleFonts.acme(
+                                      style: GoogleFonts.inter(
                                         color: const Color.fromARGB(
                                             255, 255, 255, 255),
                                         fontSize: 14,
@@ -160,7 +160,7 @@ class _TravelInfoState extends State<TravelInfo> {
                                     ),
                                     Text(
                                       "KM:" + bike.traveledKm!.toString(),
-                                      style: GoogleFonts.acme(
+                                      style: GoogleFonts.inter(
                                         color: const Color.fromARGB(
                                             255, 255, 255, 255),
                                         fontSize: 14,

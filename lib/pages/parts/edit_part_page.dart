@@ -46,7 +46,6 @@ class _EditPartPageState extends State<EditPartPage> {
     nameControler.text = currentPart.name!;
     maxkmControler.text = currentPart.maxKm.toString();
     traveledkmControler.text = currentPart.traveledKm.toString();
-
   }
 
   @override
@@ -76,7 +75,7 @@ class _EditPartPageState extends State<EditPartPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text("Editar Peça",
-                      style: GoogleFonts.acme(
+                      style: GoogleFonts.inter(
                         color: Colors.blue,
                         fontSize: 35,
                         fontWeight: FontWeight.bold,

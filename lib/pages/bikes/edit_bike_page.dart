@@ -42,7 +42,6 @@ class _EditBikePageState extends State<EditBikePage> {
     marcaControler.text = widget.marca;
     modeloControler.text = widget.modelo;
     kmControler.text = widget.km.toString();
-
   }
 
   @override
@@ -70,7 +69,7 @@ class _EditBikePageState extends State<EditBikePage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text("Editar Bike",
-                      style: GoogleFonts.acme(
+                      style: GoogleFonts.inter(
                         color: Colors.blue,
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -146,7 +145,7 @@ class _EditBikePageState extends State<EditBikePage> {
                             model: modeloControler.text,
                             label: marcaControler.text,
                             traveledKm: double.parse(kmControler.text));
-                        await bikeService.updateBike(widget.id,newBike);
+                        await bikeService.updateBike(widget.id, newBike);
 
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(

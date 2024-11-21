@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
-
 import 'package:bike/models/bike_model.dart';
-import 'package:bike/models/part_model.dart';
 import 'package:bike/models/travel_model.dart';
 import 'package:bike/services/bike_service.dart';
 import 'package:bike/services/parts_service.dart';
@@ -16,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer' as dev;
 
 class NewTravelPage extends StatefulWidget {
   final Bike bike;
@@ -93,7 +91,7 @@ class _NewTravelPageState extends State<NewTravelPage>
     });
 
     //calcula a distancia total em km
-    double distanceInKm = distance / 100;
+    double distanceInKm = distance / 1000;
 
     //calcula o tempo gasto em hrs
     duration = end.difference(start).inHours;
@@ -144,7 +142,7 @@ class _NewTravelPageState extends State<NewTravelPage>
             Expanded(
               flex: 1,
               child: Text("Viagem com: " + bike.model!,
-                  style: GoogleFonts.acme(
+                  style: GoogleFonts.inter(
                     color: Colors.blue,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -158,35 +156,35 @@ class _NewTravelPageState extends State<NewTravelPage>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('Distancia em metros: $distance ',
-                              style: GoogleFonts.acme(
+                              style: GoogleFonts.inter(
                                 color: const Color.fromARGB(255, 0, 0, 0),
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 2,
                               )),
                           Text('Latitude: ${currentPosition?.latitude}',
-                              style: GoogleFonts.acme(
+                              style: GoogleFonts.inter(
                                 color: const Color.fromARGB(255, 0, 0, 0),
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 2,
                               )),
                           Text('Longitude: ${currentPosition?.longitude}',
-                              style: GoogleFonts.acme(
+                              style: GoogleFonts.inter(
                                 color: const Color.fromARGB(255, 0, 0, 0),
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 2,
                               )),
                           Text('Posicao alterada: $counter vezes',
-                              style: GoogleFonts.acme(
+                              style: GoogleFonts.inter(
                                 color: const Color.fromARGB(255, 0, 0, 0),
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 2,
                               )),
                           Text('Duracao da viagem: $duration min',
-                              style: GoogleFonts.acme(
+                              style: GoogleFonts.inter(
                                 color: const Color.fromARGB(255, 0, 0, 0),
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -223,8 +221,8 @@ class _NewTravelPageState extends State<NewTravelPage>
                         await travelService.addTravel(travel);
 
                         //aumenta os kms na bike e nas pecas usadas.
-                        bikeService.increaseKm(bike.id!, distance);
-                        partService.increaseKm(bike.id!, distance);
+                        bikeService.increaseKm(bike.id!, travel.distance!);
+                        partService.increaseKm(bike.id!, travel.distance!);
 
                         //reseta as variaveis
                         clearData();
@@ -232,6 +230,7 @@ class _NewTravelPageState extends State<NewTravelPage>
                       }
                       if (!isRuning) {
                         //comeca a corrida
+
                         await _startRefreshingLocation();
 
                         return;

@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(9),
                                   color:
-                                      const Color.fromARGB(255, 232, 225, 225)),
+                                        Colors.blueGrey),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -60,12 +60,12 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   const Divider(
                                     thickness: 2,
-                                    color: Color.fromARGB(255, 232, 225, 225),
+                                    color: Colors.blueGrey,
                                     height: 20,
                                   ),
                                   Text("Bikes",
-                                      style: GoogleFonts.acme(
-                                        color: Colors.blue,
+                                      style: GoogleFonts.inter(
+                                        color: Colors.white,
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold,
                                         letterSpacing: 2,
@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(9),
                                   color:
-                                      const Color.fromARGB(255, 232, 225, 225)),
+                                      Colors.blueGrey),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -103,12 +103,12 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   const Divider(
                                     thickness: 2,
-                                    color: Color.fromARGB(255, 232, 225, 225),
+                                    color: Colors.blueGrey,
                                     height: 20,
                                   ),
                                   Text("Viagens",
-                                      style: GoogleFonts.acme(
-                                        color: Colors.blue,
+                                      style: GoogleFonts.inter(
+                                        color: Colors.white,
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold,
                                         letterSpacing: 2,
@@ -134,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(9),
                                 color:
-                                    const Color.fromARGB(255, 232, 225, 225)),
+                                    Colors.blueGrey),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -144,13 +144,13 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const Divider(
                                   thickness: 2,
-                                  color: Color.fromARGB(255, 232, 225, 225),
+                                  color: Colors.blueGrey,
                                   height: 20,
                                 ),
                                 Text("Manutenção",
-                                    style: GoogleFonts.acme(
-                                      color: Colors.blue,
-                                      fontSize: 25,
+                                    style: GoogleFonts.inter(
+                                      color: Colors.white,
+                                      fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       letterSpacing: 2,
                                     ))
@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(9),
                                   color:
-                                      const Color.fromARGB(255, 232, 225, 225)),
+                                      Colors.blueGrey),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -186,12 +186,12 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   const Divider(
                                     thickness: 2,
-                                    color: Color.fromARGB(255, 232, 225, 225),
+                                    color: Colors.blueGrey,
                                     height: 20,
                                   ),
                                   Text("Perfil",
-                                      style: GoogleFonts.acme(
-                                        color: Colors.blue,
+                                      style: GoogleFonts.inter(
+                                        color: Colors.white,
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold,
                                         letterSpacing: 2,
