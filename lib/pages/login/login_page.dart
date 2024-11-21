@@ -109,17 +109,6 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2,
                     )),
-                AnimatedOpacity(
-                  opacity: _opacity,
-                  duration: const Duration(seconds: 1),
-                  child: Text("Bem Vindo",
-                      style: GoogleFonts.inter(
-                        color: Colors.blue,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: -1.5,
-                      )),
-                ),
                 const Divider(
                   thickness: 2,
                   color: Colors.white,

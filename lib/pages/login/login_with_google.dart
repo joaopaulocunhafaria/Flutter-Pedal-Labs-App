@@ -68,29 +68,20 @@ class _LoginWithGoogleState extends State<LoginWithGoogle>
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2,
                     )),
-                AnimatedOpacity(
-                  opacity: _opacity,
-                  duration: const Duration(seconds: 1),
-                  child: Text("Bem Vindo",
-                      style: GoogleFonts.inter(
-                        color: Colors.blue,
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: -1.5,
-                      )),
-                ),
                 const Divider(
                   thickness: 2,
                   color: Colors.white,
-                  height: 60,
+                  height: 100,
                 ),
                 const Image(
-                  image: AssetImage("assets/biking.gif"),
+                  image: AssetImage("assets/pedalLogo.png"),
+                  height: 200,
+                  width: 200,
                 ),
                 const Divider(
                   thickness: 2,
                   color: Colors.white,
-                  height: 60,
+                  height: 100,
                 ),
                 Container(
                   width: 300,

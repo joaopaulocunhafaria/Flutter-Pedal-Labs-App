@@ -219,7 +219,7 @@ class _NewTravelPageState extends State<NewTravelPage>
                         _stopRefreshingLocation();
                         //salva no banco
                         await travelService.addTravel(travel);
-
+ 
                         //aumenta os kms na bike e nas pecas usadas.
                         bikeService.increaseKm(bike.id!, travel.distance!);
                         partService.increaseKm(bike.id!, travel.distance!);
