@@ -2,20 +2,15 @@ class Bike {
   String? id;
   String? label;
   String? model;
-  int? traveledKm; 
+  double? traveledKm;
 
-  Bike(
-      {this.id,
-      this.label,
-      this.model,
-      this.traveledKm});
+  Bike({this.id, this.label, this.model, this.traveledKm});
 
-  Bike.fromJson(Map<String, dynamic> json,String newId) {
+  Bike.fromJson(Map<String, dynamic> json, String newId) {
     id = newId;
     label = json['label'];
     model = json['model'];
-    traveledKm = json['traveledKm'];
-   
+    traveledKm = double.parse(json['traveledKm'].toString());
   }
 
   Map<String, dynamic> toJson() {
@@ -24,7 +19,7 @@ class Bike {
     data['label'] = this.label;
     data['model'] = this.model;
     data['traveledKm'] = this.traveledKm;
-    
+
     return data;
   }
 
@@ -32,4 +27,4 @@ class Bike {
   String toString() {
     return 'Bike{id: $id, label: $label, model: $model, traveledKm: $traveledKm }';
   }
-} 
+}

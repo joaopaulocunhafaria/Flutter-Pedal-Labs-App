@@ -13,7 +13,7 @@ class EditBikePage extends StatefulWidget {
   final String marca;
   final String modelo;
   final String id;
-  final int km;
+  final double km;
 
   const EditBikePage({
     Key? key,
@@ -42,7 +42,6 @@ class _EditBikePageState extends State<EditBikePage> {
     marcaControler.text = widget.marca;
     modeloControler.text = widget.modelo;
     kmControler.text = widget.km.toString();
-
   }
 
   @override
@@ -70,7 +69,7 @@ class _EditBikePageState extends State<EditBikePage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text("Editar Bike",
-                      style: GoogleFonts.acme(
+                      style: GoogleFonts.inter(
                         color: Colors.blue,
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -145,8 +144,8 @@ class _EditBikePageState extends State<EditBikePage> {
                         Bike newBike = Bike(
                             model: modeloControler.text,
                             label: marcaControler.text,
-                            traveledKm: int.parse(kmControler.text));
-                        await bikeService.updateBike(widget.id,newBike);
+                            traveledKm: double.parse(kmControler.text));
+                        await bikeService.updateBike(widget.id, newBike);
 
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(

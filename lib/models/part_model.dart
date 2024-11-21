@@ -4,7 +4,7 @@ class Part {
   String? label;
   bool? needRepair;
   int? maxKm;
-  int? traveledKm;
+  double? traveledKm;
 
   Part({this.id, this.name, this.label, this.maxKm, this.traveledKm}) {
     if (traveledKm! > maxKm!) {
@@ -20,7 +20,7 @@ class Part {
     label = json['label'];
     needRepair = json['needRepair'];
     maxKm = json['maxKm'];
-    traveledKm = json['traveledKm'];
+    traveledKm = double.parse(json['traveledKm'].toString());
   }
 
   Map<String, dynamic> toJson() {

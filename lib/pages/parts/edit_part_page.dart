@@ -46,7 +46,6 @@ class _EditPartPageState extends State<EditPartPage> {
     nameControler.text = currentPart.name!;
     maxkmControler.text = currentPart.maxKm.toString();
     traveledkmControler.text = currentPart.traveledKm.toString();
-
   }
 
   @override
@@ -76,7 +75,7 @@ class _EditPartPageState extends State<EditPartPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text("Editar Peça",
-                      style: GoogleFonts.acme(
+                      style: GoogleFonts.inter(
                         color: Colors.blue,
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -174,7 +173,7 @@ class _EditPartPageState extends State<EditPartPage> {
                             name: nameControler.text,
                             label: labelControler.text,
                             maxKm: int.parse(maxkmControler.text),
-                            traveledKm: int.parse(traveledkmControler.text));
+                            traveledKm: double.parse(traveledkmControler.text));
                         await partService.updatePart(widget.part.id!, newPart);
 
                         Navigator.of(context).pushReplacement(

@@ -49,7 +49,7 @@ class _AddBikePageState extends State<AddBikePage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text("Adicionar nova Bike",
-                      style: GoogleFonts.acme(
+                      style: GoogleFonts.inter(
                         color: Colors.blue,
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -124,7 +124,7 @@ class _AddBikePageState extends State<AddBikePage> {
                         Bike newBike = Bike(
                             model: modeloControler.text,
                             label: marcaControler.text,
-                            traveledKm: int.parse(kmControler.text));
+                            traveledKm: double.parse(kmControler.text));
                         await bikeService.addBike(newBike);
 
                         Navigator.of(context).pushReplacement(

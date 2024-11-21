@@ -63,7 +63,7 @@ class _AddPartPageState extends State<AddPartPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text("Adicionar nova Peça",
-                      style: GoogleFonts.acme(
+                      style: GoogleFonts.inter(
                         color: Colors.blue,
                         fontSize: 35,
                         fontWeight: FontWeight.bold,
@@ -161,7 +161,7 @@ class _AddPartPageState extends State<AddPartPage> {
                             name: nameControler.text,
                             label: labelControler.text,
                             maxKm: int.parse(maxkmControler.text),
-                            traveledKm: int.parse(traveledkmControler.text));
+                            traveledKm: double.parse(traveledkmControler.text));
                         await partService.addPart(newPart);
 
                         Navigator.of(context).pushReplacement(

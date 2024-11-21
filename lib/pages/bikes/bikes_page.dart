@@ -41,7 +41,7 @@ class _BikesState extends State<Bikes> {
                     return Center(
                       child: Text(
                         "Erro ao carregar bikes",
-                        style: GoogleFonts.acme(
+                        style: GoogleFonts.inter(
                           color: Colors.blue,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -55,7 +55,7 @@ class _BikesState extends State<Bikes> {
                       return Center(
                         child: Text(
                           "Você não tem nenhuma bike registrada.",
-                          style: GoogleFonts.acme(
+                          style: GoogleFonts.inter(
                             color: Colors.blue,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -78,6 +78,7 @@ class _BikesState extends State<Bikes> {
                             );
                           },
                           child: Card(
+                            color: Colors.blueGrey,
                             elevation: 8,
                             margin: const EdgeInsets.all(12),
                             child: Padding(
@@ -104,8 +105,8 @@ class _BikesState extends State<Bikes> {
                                       children: [
                                         Text(
                                           bikes[index].label!,
-                                          style: GoogleFonts.acme(
-                                            color: Colors.blue,
+                                          style: GoogleFonts.inter(
+                                            color: Colors.white,
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
                                             letterSpacing: 2,
@@ -113,8 +114,8 @@ class _BikesState extends State<Bikes> {
                                         ),
                                         Text(
                                           bikes[index].model!,
-                                          style: GoogleFonts.acme(
-                                            color: Colors.blue,
+                                          style: GoogleFonts.inter(
+                                            color: Colors.white,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                             letterSpacing: 1,
@@ -125,8 +126,8 @@ class _BikesState extends State<Bikes> {
                                               bikes[index]
                                                   .traveledKm!
                                                   .toString(),
-                                          style: GoogleFonts.acme(
-                                            color: Colors.blue,
+                                          style: GoogleFonts.inter(
+                                            color: Colors.white,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                             letterSpacing: 1,
@@ -198,7 +199,7 @@ class _BikesState extends State<Bikes> {
                                                                       ButtonStyle(
                                                                     backgroundColor:
                                                                         MaterialStateProperty.all(
-                                                                            Colors.red),
+                                                                            Color.fromARGB(255, 255, 0, 0)),
                                                                   ),
                                                                   onPressed:
                                                                       () {
@@ -224,8 +225,7 @@ class _BikesState extends State<Bikes> {
                                                   },
                                               icon: const Icon(
                                                 Icons.delete,
-                                                color: Color.fromARGB(
-                                                    255, 199, 97, 89),
+                                                color: Color.fromARGB(255, 255, 17, 0),
                                               ))
                                         ],
                                       )),
@@ -241,7 +241,7 @@ class _BikesState extends State<Bikes> {
                   return Center(
                       child: Text(
                     "Nenhum dado disponível.",
-                    style: GoogleFonts.acme(
+                    style: GoogleFonts.inter(
                       color: Colors.blue,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,

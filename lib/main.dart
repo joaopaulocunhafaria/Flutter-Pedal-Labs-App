@@ -1,6 +1,7 @@
 import 'package:bike/services/auth_service.dart';
 import 'package:bike/services/bike_service.dart';
 import 'package:bike/services/parts_service.dart';
+import 'package:bike/services/travels_service.dart';
 import 'package:bike/widgets/auth_check.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,6 +26,11 @@ void main() async {
           create: (_) => PartService(),
           update: (_, authService, partService) =>
               partService!..setAuthService(authService),
+        ),
+        ChangeNotifierProxyProvider<AuthService,TravelService>(
+          create: (_) => TravelService(),
+          update: (_, authService, travelService) =>
+              travelService!..setAuthService(authService),
         ),
       ],
       child: MyApp(),

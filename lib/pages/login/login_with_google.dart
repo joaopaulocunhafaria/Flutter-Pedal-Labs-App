@@ -27,27 +27,12 @@ class _LoginWithGoogleState extends State<LoginWithGoogle>
   @override
   void initState() {
     super.initState();
-    _startFadeAnimation();
-  }
-
-  void _startFadeAnimation() {
-    Timer.periodic(const Duration(seconds: 2), (timer) {
-      setState(() {
-        // Alterna a opacidade entre 1 (visível) e 0 (invisível)
-        _opacity = _opacity == 1.0 ? 0.0 : 1.0;
-      });
-    });
   }
 
   loginComGoogle() async {
     try {
       await context.read<AuthService>().loginComGoogle();
 
-      print("\n\n");
-      print("\n\n");
-      print("context.read<AuthService>().usuario");
-      print("\n\n");
-      print("\n\n");
       if (context.read<AuthService>().usuario != null) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
@@ -77,35 +62,26 @@ class _LoginWithGoogleState extends State<LoginWithGoogle>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("PEDAL LABS",
-                    style: GoogleFonts.acme(
+                    style: GoogleFonts.inter(
                       color: Colors.blue,
                       fontSize: 45,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2,
                     )),
-                AnimatedOpacity(
-                  opacity: _opacity,
-                  duration: const Duration(seconds: 1),
-                  child: Text("Bem Vindo",
-                      style: GoogleFonts.acme(
-                        color: Colors.blue,
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: -1.5,
-                      )),
-                ),
                 const Divider(
                   thickness: 2,
                   color: Colors.white,
-                  height: 60,
+                  height: 100,
                 ),
                 const Image(
-                  image: AssetImage("assets/biking.gif"),
+                  image: AssetImage("assets/pedalLogo.png"),
+                  height: 200,
+                  width: 200,
                 ),
                 const Divider(
                   thickness: 2,
                   color: Colors.white,
-                  height: 60,
+                  height: 100,
                 ),
                 Container(
                   width: 300,

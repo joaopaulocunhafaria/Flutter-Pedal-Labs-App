@@ -88,7 +88,6 @@ class _LoginPageState extends State<LoginPage> {
       ));
     }
   }
- 
 
   @override
   Widget build(BuildContext context) {
@@ -104,23 +103,12 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("PEDAL LABS",
-                    style: GoogleFonts.acme(
+                    style: GoogleFonts.inter(
                       color: Colors.blue,
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2,
                     )),
-                AnimatedOpacity(
-                  opacity: _opacity,
-                  duration: const Duration(seconds: 1),
-                  child: Text("Bem Vindo",
-                      style: GoogleFonts.acme(
-                        color: Colors.blue,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: -1.5,
-                      )),
-                ),
                 const Divider(
                   thickness: 2,
                   color: Colors.white,
@@ -230,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8)))),
-                        onPressed: ()async {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             await login();
                             if (auth.usuario != null) {

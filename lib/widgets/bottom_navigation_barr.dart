@@ -1,6 +1,5 @@
 import 'package:bike/pages/bikes/bikes_page.dart';
-import 'package:bike/pages/home/home_page.dart';
-import 'package:bike/pages/profile/profile_page.dart';
+import 'package:bike/pages/home/home_page.dart'; 
 import 'package:bike/pages/travels/travels_page.dart';
 import 'package:flutter/material.dart';
 

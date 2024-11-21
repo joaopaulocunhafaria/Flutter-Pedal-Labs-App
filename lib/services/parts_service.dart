@@ -1,9 +1,6 @@
-import 'package:bike/models/bike_model.dart';
-import 'package:bike/models/db_user_model.dart';
 import 'package:bike/models/part_model.dart';
 import 'package:bike/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +35,7 @@ class PartService extends ChangeNotifier {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? id = _authService!.dbUser!.id;
+      String? id = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: id).get();
@@ -85,7 +82,7 @@ class PartService extends ChangeNotifier {
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? userId = _authService!.dbUser!.id;
+      String? userId = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: userId).get();
@@ -141,7 +138,7 @@ class PartService extends ChangeNotifier {
     print("\n\n\n");
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? userId = _authService!.dbUser!.id;
+      String? userId = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: userId).get();
@@ -155,10 +152,8 @@ class PartService extends ChangeNotifier {
             .collection('bikes')
             .doc(bikeId)
             .collection("parts");
-  
-        DocumentSnapshot partDoc = await partCollection
-            .doc(partId)
-            .get();
+
+        DocumentSnapshot partDoc = await partCollection.doc(partId).get();
         if (partDoc.exists) {
           await partCollection.doc(partId).delete();
 
@@ -191,7 +186,7 @@ class PartService extends ChangeNotifier {
     List<Part> parts = [];
 
     if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
-      int? userId = _authService!.dbUser!.id;
+      String? userId = _authService!.dbUser!.id;
 
       QuerySnapshot userSnapshot =
           await db.collection('user').where('id', isEqualTo: userId).get();
@@ -224,5 +219,95 @@ class PartService extends ChangeNotifier {
     }
 
     return parts;
+  }
+
+  Future<void> increaseKm(String bikeId, double km) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    List<Part> parts = [];
+
+    if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
+      String? userId = _authService!.dbUser!.id;
+
+      QuerySnapshot userSnapshot =
+          await db.collection('user').where('id', isEqualTo: userId).get();
+
+      if (userSnapshot.docs.isNotEmpty) {
+        DocumentSnapshot userDoc = userSnapshot.docs.first;
+
+        QuerySnapshot bikeSnapshot = await db
+            .collection("user")
+            .doc(userDoc.id)
+            .collection('bikes')
+            .doc(bikeId)
+            .collection("parts")
+            .get();
+
+        CollectionReference bikeCollectionReference = await db
+            .collection("user")
+            .doc(userDoc.id)
+            .collection('bikes')
+            .doc(bikeId)
+            .collection("parts");
+
+        parts = bikeSnapshot.docs.map((part) {
+          return Part.fromJson(part.data() as Map<String, dynamic>, part.id);
+        }).toList();
+
+        print("Parts length");
+        print(parts.length);
+        _setParts(parts);
+      } else {
+        print("Usuário não encontrado.");
+      }
+    } else {
+      print("Erro: Usuário não encontrado ou ID inválido.");
+    }
+  }
+
+  Future<void> updateSinglePartKm(
+      String bikeId, String partId, double km) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    late Part part;
+
+    if (_authService!.dbUser != null && _authService!.dbUser!.id != null) {
+      String? userId = _authService!.dbUser!.id;
+
+      QuerySnapshot userSnapshot =
+          await db.collection('user').where('id', isEqualTo: userId).get();
+
+      if (userSnapshot.docs.isNotEmpty) {
+        DocumentSnapshot userDoc = userSnapshot.docs.first;
+
+        DocumentSnapshot bikeSnapshot = await db
+            .collection("user")
+            .doc(userDoc.id)
+            .collection('bikes')
+            .doc(bikeId)
+            .collection("parts")
+            .doc(partId)
+            .get();
+
+        DocumentReference bikeDocumentReference = await db
+            .collection("user")
+            .doc(userDoc.id)
+            .collection('bikes')
+            .doc(bikeId)
+            .collection("parts")
+            .doc(partId);
+
+        part = Part.fromJson(
+            bikeSnapshot.data() as Map<String, dynamic>, bikeSnapshot.id);
+
+        part.traveledKm = (part.traveledKm ?? 0) + km;
+
+        bikeDocumentReference.update(part.toJson());
+        List<Part> newParts = await getParts();
+        _setParts(newParts);
+      } else {
+        print("Usuário não encontrado.");
+      }
+    } else {
+      print("Erro: Usuário não encontrado ou ID inválido.");
+    }
   }
 }
